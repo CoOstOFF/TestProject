@@ -19,7 +19,7 @@ router.post('/', function (req, res, next) {
             db.query(req.body.query, function (err, result) {
                 db.detach();
                 if (err) {
-                    err.message = "Wrong query";
+                    err.message = "Wrong SQL query.";
                     next(err);
                 } else {
                     res.send(result);
