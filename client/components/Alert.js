@@ -6,20 +6,19 @@ class MyAlert extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {alertVisible: false};
+        this.state = {visible: false};
     }
 
     handleAlertDismiss = () => {
-        this.setState({alertVisible: false});
+        this.setState({visible: false});
     };
 
     componentWillReceiveProps = (nextProps) => {
-        if (nextProps.error)
-            this.setState({alertVisible: true});
+        this.setState({visible: nextProps.error});
     };
 
     render() {
-        if (this.state.alertVisible) {
+        if (this.state.visible) {
             return (
                 <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss} style={{
                     marginLeft: 10,
