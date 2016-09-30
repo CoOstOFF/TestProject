@@ -5,10 +5,10 @@ export default class MyAppBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar inverse staticTop >
+                <Navbar inverse staticTop>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a>SQL Query App</a>
+                            <a>Query App</a>
                         </Navbar.Brand>
                     </Navbar.Header>
                 </Navbar>

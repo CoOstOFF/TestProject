@@ -1,23 +1,18 @@
-export default function getData(query) {
+import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE, SQL_QUERY, GRAPHQL_QUERY} from '../contants';
+
+export default function getData(query, queryType) {
     return (dispatch) => {
         dispatch({
-            type: 'GET_DATA',
+            type: GET_DATA,
             payload: {fetching: true}
         });
-
-        fetch('/query', {
-            method: 'post',
-            headers: {
-                "Content-type": 'application/json'
-            },
-            body: JSON.stringify({query: query})
-        })
+        makeFetch(query, queryType)
             .then(checkStatus)
             .then(parseJSON)
             .then(function (data) {
                 console.log('request succeeded with JSON response', data);
                 dispatch({
-                    type: 'GET_DATA_SUCCESS',
+                    type: GET_DATA_SUCCESS,
                     payload: {
                         data: data,
                         error: null,
@@ -29,7 +24,7 @@ export default function getData(query) {
             .catch(function (error) {
                 console.log('request failed', error);
                 dispatch({
-                    type: 'GET_DATA_FAILURE',
+                    type: GET_DATA_FAILURE,
                     payload: {
                         data: [],
                         error: error,
@@ -39,6 +34,22 @@ export default function getData(query) {
             })
     }
 }
+
+function makeFetch(query, queryType) {
+    switch (queryType) {
+        case SQL_QUERY:
+            return fetch('/query', {
+                method: 'post',
+                headers: {
+                    "Content-type": 'application/json'
+                },
+                body: JSON.stringify({query: query})
+            });
+        case GRAPHQL_QUERY:
+            break;
+    }
+}
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response

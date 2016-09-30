@@ -1,26 +1,33 @@
 import React from 'react';
-import {Button} from 'react-bootstrap';
-import {FormGroup} from 'react-bootstrap';
-import {FormControl} from 'react-bootstrap';
+import {Button, ControlLabel, FormGroup, FormControl} from 'react-bootstrap';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {SQL_QUERY, GRAPHQL_QUERY} from '../contants';
 import getData from '../actions/app-actions'
 
 class MyEditTextForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {inputValue: ''};
+        this.state = {
+            inputValue: '',
+            queryType: SQL_QUERY
+        };
     }
 
-    onChangeHandler = (e) => {
+    onChangeInputHandler = (e) => {
         this.setState({inputValue: e.target.value});
+
+    };
+
+    onChangeSelectHandler = (e) => {
+        this.setState({queryType: e.target.value});
     };
 
     onClickSubmitHandler = (e) => {
         e.preventDefault();
         const getTableData = this.props.appActions;
-        getTableData(this.state.inputValue);
+        getTableData(this.state.inputValue, this.state.queryType);
     };
 
     onClickClearFormHandler = () => {
@@ -40,7 +47,12 @@ class MyEditTextForm extends React.Component {
                         rows="4"
                         placeholder="Input your SQL query here..."
                         value={this.state.inputValue}
-                        onChange={this.onChangeHandler}/>
+                        onChange={this.onChangeInputHandler}/>
+                    <ControlLabel>Select query type:</ControlLabel>
+                    <FormControl componentClass="select" onChange={this.onChangeSelectHandler}>
+                        <option value={SQL_QUERY}>SQL query</option>
+                        <option value={GRAPHQL_QUERY}>GraphQL query</option>
+                    </FormControl>
                 </FormGroup>
                 <Button
                     id="submit_button"
