@@ -6,11 +6,8 @@
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/build/assert-shim-compiled-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-node-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/commander/index-compiled-compiled.js" />
-        <item url="file://$PROJECT_DIR$/client/main-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/util-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map-compiled-compiled.js" />
-        <item url="file://$PROJECT_DIR$/client/webpack.config-compiled.js" />
-        <item url="file://$PROJECT_DIR$/client/bundle-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/binary-search-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-map-consumer-compiled.js" />
         <item url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-map-generator-compiled-compiled.js" />
@@ -27,15 +24,15 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/client/main-compiled.js" />
+      <root url="file://$PROJECT_DIR$/client/webpack.config-compiled.js" />
+      <root url="file://$PROJECT_DIR$/client/bundle-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/base64-vlq-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/build/assert-shim-compiled-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-node-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/commander/index-compiled-compiled.js" />
-      <root url="file://$PROJECT_DIR$/client/main-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/util-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map-compiled-compiled.js" />
-      <root url="file://$PROJECT_DIR$/client/webpack.config-compiled.js" />
-      <root url="file://$PROJECT_DIR$/client/bundle-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/binary-search-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-map-consumer-compiled.js" />
       <root url="file://$PROJECT_DIR$/server/node_modules/jade/node_modules/clean-css/node_modules/source-map/lib/source-map/source-map-generator-compiled-compiled.js" />

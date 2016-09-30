@@ -1,10 +1,10 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
 
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
     res.render('index', {
         title: 'SQL Query App'
     });
 });
 
-module.exports = router;
+export default router;

@@ -19,6 +19,7 @@ class MyTable extends React.Component {
                 display: this.state.visible ? 'block' : 'none',
                 marginLeft: 10,
                 marginRight: 10,
+                marginBottom: 10,
                 overflow: 'auto'
             }}>
                 <Table className="table" data={this.props.data}/>

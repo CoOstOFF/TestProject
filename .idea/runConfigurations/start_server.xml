@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="start-server" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="server/bin/www" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="start-server" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="$PROJECT_DIR$/server/node_modules/.bin/babel-node.cmd" path-to-js-file="server/bin/www" node-parameters="--presets es2015" working-dir="$PROJECT_DIR$">
     <envs>
       <env name="DEBUG" value="TestProject:*" />
     </envs>
