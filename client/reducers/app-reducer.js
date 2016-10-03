@@ -1,4 +1,4 @@
-import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE} from '../contants';
+import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE} from '../constants';
 
 const initialState = {
     data: [],

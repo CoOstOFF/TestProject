@@ -1,5 +1,6 @@
 import express from 'express';
 var graphqlHTTP = require('express-graphql');
+var cors = require('cors');
 import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -8,6 +9,7 @@ import Schema from './graphql/queries/schema';
 
 var app = express();
 
+app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(logger('dev'));
@@ -16,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../public')));
 
-app.use('/graphql', graphqlHTTP({schema: Schema, graphiql: false}));
+app.use('/', graphqlHTTP({schema: Schema, graphiql: false, pretty: true}));
 
 app.use((req, res, next) => {
     var err = new Error('Oooooops :(');

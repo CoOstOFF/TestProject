@@ -2,15 +2,15 @@ import {GraphQLObjectType, GraphQLSchema, GraphQLList} from 'graphql';
 import Employee from '../types/Employee';
 
 const Query = new GraphQLObjectType({
-    name: "query",
-    fields: {
+    name: "Query",
+    fields: () => ({
         employees: {
             type: new GraphQLList(Employee),
             resolve: function () {
                 return employees;
             }
         }
-    }
+    })
 });
 
 var employees = [

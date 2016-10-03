@@ -1,4 +1,4 @@
-import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE, SQL_QUERY, GRAPHQL_QUERY} from '../contants';
+import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE, SQL_QUERY, GRAPHQL_QUERY} from '../constants';
 
 export default function getData(query, queryType) {
     return (dispatch) => {
@@ -6,11 +6,24 @@ export default function getData(query, queryType) {
             type: GET_DATA,
             payload: {fetching: true}
         });
-        makeFetch(query, queryType)
+        fetch(fetchUrl(queryType), {
+            method: 'post',
+            headers: {
+                "Content-type": 'application/json'
+            },
+            body: JSON.stringify({query: query})
+        })
             .then(checkStatus)
             .then(parseJSON)
             .then(function (data) {
                 console.log('request succeeded with JSON response', data);
+                for (var key in data['data']) {
+                    if (data['data'].hasOwnProperty(key)) {
+                        if (key == 'employees') {
+                            data = data['data'][key];
+                        }
+                    }
+                }
                 dispatch({
                     type: GET_DATA_SUCCESS,
                     payload: {
@@ -35,18 +48,13 @@ export default function getData(query, queryType) {
     }
 }
 
-function makeFetch(query, queryType) {
+function fetchUrl(queryType) {
     switch (queryType) {
         case SQL_QUERY:
-            return fetch('/query', {
-                method: 'post',
-                headers: {
-                    "Content-type": 'application/json'
-                },
-                body: JSON.stringify({query: query})
-            });
+        default:
+            return '/query';
         case GRAPHQL_QUERY:
-            break;
+            return 'http://localhost:4000/graphql/';
     }
 }
 

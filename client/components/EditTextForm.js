@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, ControlLabel, FormGroup, FormControl} from 'react-bootstrap';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {SQL_QUERY, GRAPHQL_QUERY} from '../contants';
+import {SQL_QUERY, GRAPHQL_QUERY} from '../constants';
 import getData from '../actions/app-actions'
 
 class MyEditTextForm extends React.Component {
@@ -45,7 +45,7 @@ class MyEditTextForm extends React.Component {
                     <FormControl
                         componentClass="textarea"
                         rows="4"
-                        placeholder="Input your SQL query here..."
+                        placeholder="Input your query here..."
                         value={this.state.inputValue}
                         onChange={this.onChangeInputHandler}/>
                     <ControlLabel>Select query type:</ControlLabel>
