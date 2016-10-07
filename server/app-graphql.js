@@ -5,7 +5,7 @@ import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import Schema from './graphql/queries/schema';
+import Schema from './graphql/schema';
 
 var app = express();
 

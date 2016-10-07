@@ -1,28 +1,23 @@
 import {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull} from 'graphql';
+import Workplace from './Workplace';
 
 const Employee = new GraphQLObjectType({
     name: "Employee",
     fields: {
         _id: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: new GraphQLNonNull(GraphQLString)
         },
         name: {
-            type: new GraphQLNonNull(GraphQLString),
-            resolve: (employee) => {
-                return employee.name || "Does not exist";
-            }
+            type: GraphQLString
         },
         surname: {
-            type: GraphQLString,
-            resolve: (employee) => {
-                return employee.surname || "Does not exist";
-            }
+            type: GraphQLString
         },
         listNumber: {
-            type: GraphQLInt,
-            resolve: (employee) => {
-                return employee.listNumber || null;
-            }
+            type: GraphQLInt
+        },
+        workplace: {
+            type: Workplace
         }
     }
 });

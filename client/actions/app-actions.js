@@ -1,9 +1,9 @@
-import {GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE, SQL_QUERY, GRAPHQL_QUERY} from '../constants';
+import * as Constants from '../constants';
 
 export default function getData(query, queryType) {
     return (dispatch) => {
         dispatch({
-            type: GET_DATA,
+            type: Constants.GET_DATA,
             payload: {fetching: true}
         });
         fetch(fetchUrl(queryType), {
@@ -16,16 +16,14 @@ export default function getData(query, queryType) {
             .then(checkStatus)
             .then(parseJSON)
             .then(function (data) {
-                console.log('request succeeded with JSON response', data);
-                for (var key in data['data']) {
-                    if (data['data'].hasOwnProperty(key)) {
-                        if (key == 'employees') {
-                            data = data['data'][key];
-                        }
+                let parsedData = data['data'];
+                for (let key in parsedData) {
+                    if (parsedData.hasOwnProperty(key)) {
+                        data = parsedData[key];
                     }
                 }
                 dispatch({
-                    type: GET_DATA_SUCCESS,
+                    type: Constants.GET_DATA_SUCCESS,
                     payload: {
                         data: data,
                         error: null,
@@ -37,7 +35,7 @@ export default function getData(query, queryType) {
             .catch(function (error) {
                 console.log('request failed', error);
                 dispatch({
-                    type: GET_DATA_FAILURE,
+                    type: Constants.GET_DATA_FAILURE,
                     payload: {
                         data: [],
                         error: error,
@@ -50,11 +48,11 @@ export default function getData(query, queryType) {
 
 function fetchUrl(queryType) {
     switch (queryType) {
-        case SQL_QUERY:
+        case Constants.SQL_QUERY:
         default:
             return '/query';
-        case GRAPHQL_QUERY:
-            return 'http://localhost:4000/graphql/';
+        case Constants.GRAPHQL_QUERY:
+            return 'http://192.168.0.53:4000/graphql/';
     }
 }
 

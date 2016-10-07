@@ -1,8 +1,8 @@
 import React from 'react';
-import {Button, ControlLabel, FormGroup, FormControl} from 'react-bootstrap';
+import {Button, ControlLabel, FormGroup, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {SQL_QUERY, GRAPHQL_QUERY} from '../constants';
+import * as Constants from '../constants';
 import getData from '../actions/app-actions'
 
 class MyEditTextForm extends React.Component {
@@ -11,13 +11,12 @@ class MyEditTextForm extends React.Component {
         super(props);
         this.state = {
             inputValue: '',
-            queryType: SQL_QUERY
+            queryType: Constants.GRAPHQL_QUERY,
         };
     }
 
     onChangeInputHandler = (e) => {
         this.setState({inputValue: e.target.value});
-
     };
 
     onChangeSelectHandler = (e) => {
@@ -30,55 +29,103 @@ class MyEditTextForm extends React.Component {
         getTableData(this.state.inputValue, this.state.queryType);
     };
 
-    onClickClearFormHandler = () => {
+    onClickClearFormHandler = (e) => {
+        e.preventDefault();
         this.setState({inputValue: ''});
+    };
+
+    onSelectQuickQuery = (eventKey, event) => {
+        const getTableData = this.props.appActions;
+        switch (eventKey) {
+            case Constants.GET_EMPLOYEES:
+                getTableData('{getEmployees{_id name surname listNumber}}', Constants.GRAPHQL_QUERY);
+                break;
+            case Constants.ADD_EMPLOYEE:
+                getTableData(parse('mutation{addEmployee(_id: "%s"){_id name surname listNumber}}',
+                    prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
+                break;
+            case Constants.DELETE_EMPLOYEE:
+                getTableData(parse('mutation{deleteEmployee(_id: "%s"){_id name surname listNumber}}',
+                    prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
+                break;
+            case Constants.GET_WORKPLACES:
+                getTableData('{getWorkplaces{_id name address}}', Constants.GRAPHQL_QUERY);
+                break;
+            case Constants.ADD_WORKPLACE:
+                getTableData(parse('mutation{addWorkplace(_id: "%s"){_id name address}}',
+                    prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
+                break;
+            case Constants.DELETE_WORKPLACE:
+                getTableData(parse('mutation{deleteWorkplace(_id: "%s"){_id name address}}',
+                    prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
+                break;
+        }
     };
 
     render() {
         return (
-            <form style={{
-                marginLeft: 10,
-                marginRight: 10,
-                marginBottom: 10
-            }}>
-                <FormGroup>
-                    <FormControl
-                        componentClass="textarea"
-                        rows="4"
-                        placeholder="Input your query here..."
-                        value={this.state.inputValue}
-                        onChange={this.onChangeInputHandler}/>
-                    <ControlLabel>Select query type:</ControlLabel>
-                    <FormControl componentClass="select" onChange={this.onChangeSelectHandler}>
-                        <option value={SQL_QUERY}>SQL query</option>
-                        <option value={GRAPHQL_QUERY}>GraphQL query</option>
-                    </FormControl>
-                </FormGroup>
-                <Button
-                    id="submit_button"
-                    bsStyle="primary"
-                    type="button"
-                    style={{
-                        marginBottom: '10px',
-                        fontFamily: 'open-sans'
-                    }}
-                    onClick={this.onClickSubmitHandler}
-                    disabled={!this.state.inputValue}>
-                    Submit
-                </Button>
-                <Button
-                    id="clear_form_button"
-                    bsStyle="danger"
-                    type="reset"
-                    style={{
-                        marginLeft: '10px',
-                        marginBottom: '10px',
-                        fontFamily: 'open-sans'
-                    }}
-                    onClick={this.onClickClearFormHandler}>
-                    Clear form
-                </Button>
-            </form>
+            <div>
+                <form style={{
+                    marginLeft: 10,
+                    marginRight: 10,
+                    marginBottom: 10
+                }}>
+                    <FormGroup>
+                        <FormControl
+                            componentClass="textarea"
+                            rows="4"
+                            placeholder="Input your query here..."
+                            value={this.state.inputValue}
+                            onChange={this.onChangeInputHandler}/>
+                        <ControlLabel>Select query type:</ControlLabel>
+                        <FormControl componentClass="select" onChange={this.onChangeSelectHandler}>
+                            <option value={Constants.GRAPHQL_QUERY}>GraphQL query</option>
+                            <option value={Constants.SQL_QUERY}>SQL query</option>
+                        </FormControl>
+                    </FormGroup>
+                    <Button
+                        id="submit_button"
+                        bsStyle="primary"
+                        type="button"
+                        style={{
+                            marginBottom: '10px',
+                            fontFamily: 'open-sans'
+                        }}
+                        onClick={this.onClickSubmitHandler}
+                        disabled={!this.state.inputValue}>
+                        Submit
+                    </Button>
+                    <Button
+                        id="clear_form_button"
+                        bsStyle="danger"
+                        type="reset"
+                        style={{
+                            marginLeft: '10px',
+                            marginBottom: '10px',
+                            fontFamily: 'open-sans'
+                        }}
+                        onClick={this.onClickClearFormHandler}>
+                        Clear form
+                    </Button>
+                    <DropdownButton
+                        dropup
+                        title="Quick Query"
+                        style={{
+                            marginLeft: '10px',
+                            marginBottom: '10px',
+                            fontFamily: 'open-sans'
+                        }}
+                        onSelect={this.onSelectQuickQuery}
+                        disabled={this.state.queryType != Constants.GRAPHQL_QUERY}>
+                        <MenuItem eventKey={Constants.GET_EMPLOYEES}>Get employees</MenuItem>
+                        <MenuItem eventKey={Constants.ADD_EMPLOYEE}>Add employee</MenuItem>
+                        <MenuItem eventKey={Constants.DELETE_EMPLOYEE}>Delete employee</MenuItem>
+                        <MenuItem eventKey={Constants.GET_WORKPLACES}>Get workplaces</MenuItem>
+                        <MenuItem eventKey={Constants.ADD_WORKPLACE}>Add workplace</MenuItem>
+                        <MenuItem eventKey={Constants.DELETE_WORKPLACE}>Delete workplace</MenuItem>
+                    </DropdownButton>
+                </form>
+            </div>
         );
     }
 }
@@ -87,6 +134,15 @@ function mapDispatchToProps(dispatch) {
     return {
         appActions: bindActionCreators(getData, dispatch)
     }
+}
+
+function parse(str) {
+    var args = [].slice.call(arguments, 1),
+        i = 0;
+
+    return str.replace(/%s/g, function () {
+        return args[i++];
+    });
 }
 
 export default connect(null, mapDispatchToProps)(MyEditTextForm)
