@@ -1,11 +1,11 @@
-import {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull} from 'graphql';
+import {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull, GraphQLID} from 'graphql';
 import Workplace from './Workplace';
 
 const Employee = new GraphQLObjectType({
     name: "Employee",
     fields: {
         _id: {
-            type: new GraphQLNonNull(GraphQLString)
+            type: new GraphQLNonNull(GraphQLID)
         },
         name: {
             type: GraphQLString

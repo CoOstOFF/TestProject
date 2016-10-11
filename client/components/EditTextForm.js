@@ -11,7 +11,7 @@ class MyEditTextForm extends React.Component {
         super(props);
         this.state = {
             inputValue: '',
-            queryType: Constants.GRAPHQL_QUERY,
+            queryType: Constants.GRAPHQL_QUERY
         };
     }
 
@@ -89,7 +89,9 @@ class MyEditTextForm extends React.Component {
                         type="button"
                         style={{
                             marginBottom: '10px',
-                            fontFamily: 'open-sans'
+                            borderColor: "#222222",
+                            backgroundColor: "#222222",
+                            fontColor: "#888888"
                         }}
                         onClick={this.onClickSubmitHandler}
                         disabled={!this.state.inputValue}>
@@ -101,8 +103,7 @@ class MyEditTextForm extends React.Component {
                         type="reset"
                         style={{
                             marginLeft: '10px',
-                            marginBottom: '10px',
-                            fontFamily: 'open-sans'
+                            marginBottom: '10px'
                         }}
                         onClick={this.onClickClearFormHandler}>
                         Clear form
@@ -112,8 +113,7 @@ class MyEditTextForm extends React.Component {
                         title="Quick Query"
                         style={{
                             marginLeft: '10px',
-                            marginBottom: '10px',
-                            fontFamily: 'open-sans'
+                            marginBottom: '10px'
                         }}
                         onSelect={this.onSelectQuickQuery}
                         disabled={this.state.queryType != Constants.GRAPHQL_QUERY}>
@@ -136,6 +136,7 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
+// %s string parameter
 function parse(str) {
     var args = [].slice.call(arguments, 1),
         i = 0;
