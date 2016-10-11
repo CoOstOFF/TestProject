@@ -15,7 +15,6 @@ export default class App extends React.Component {
     };
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <Navbar inverse staticTop style={{marginBottom: 0}}>
