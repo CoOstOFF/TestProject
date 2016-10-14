@@ -12,19 +12,7 @@ export const getEmployees = {
 
 export const getWorkplaces = {
     type: new GraphQLList(Workplace),
-    args: {
-        name: {
-            type: GraphQLString
-        }
-    },
-    resolve: (parent, args) => {
-        if (args.name) {
-            let result = [];
-            result.push(workplaces.find((element, index, array) => {
-                return element.name == args.name;
-            }));
-            return result;
-        }
+    resolve: () => {
         return workplaces;
     }
 };

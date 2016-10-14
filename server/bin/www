@@ -4,9 +4,14 @@
  * Module dependencies.
  */
 import {app} from "../app"
-import serverGraphql from '../app-graphql';
+import serverGraphQL from '../app-graphql';
 var debug = require('debug')('ServerApp:server');
 var http = require('http');
+import fs from 'fs';
+import path from 'path';
+import Schema from '../graphql/schema';
+import {graphql} from 'graphql';
+import {introspectionQuery} from 'graphql/utilities';
 
 /**
  * Get port from environment and store in Express.
@@ -14,7 +19,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-serverGraphql.listen(4000);
+serverGraphQL.listen(4000);
 /**
  * Create HTTP server.
  */
@@ -88,3 +93,18 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
+
+(async() => {
+    const result = await (graphql(Schema, introspectionQuery));
+    if (result.errors) {
+        console.error(
+            'ERROR introspecting schema: ',
+            JSON.stringify(result.errors, null, 2)
+        );
+    } else {
+        fs.writeFileSync(
+            path.join(__dirname, '../data/schema.json'),
+            JSON.stringify(result, null, 2)
+        );
+    }
+})();

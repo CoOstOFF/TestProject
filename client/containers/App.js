@@ -17,7 +17,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <Navbar inverse staticTop style={{marginBottom: 0}}>
+                <Navbar inverse fixedTop>
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">Query App</Link>
@@ -35,7 +35,14 @@ export default class App extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                {this.props.children}
+                <div style={{marginTop: 50, marginBottom: 50}}>
+                    {this.props.children}
+                </div>
+                <Navbar inverse fixedBottom style={{textAlign: "center"}}>
+                    <Navbar.Text>
+                        Copyright &#169; 2016 Andilevko Andrew
+                    </Navbar.Text>
+                </Navbar>
             </div>
         )
     }

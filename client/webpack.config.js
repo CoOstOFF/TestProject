@@ -22,10 +22,7 @@ module.exports = {
             {
                 test: /.jsx?$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'stage-0', 'react']
-                }
+                exclude: /node_modules/
             },
             {test: /\.css$/, loader: 'style-loader!css-loader'},
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
