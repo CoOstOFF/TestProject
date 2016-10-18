@@ -6,7 +6,8 @@ const Query = new GraphQLObjectType({
     name: "Query",
     fields: () => ({
         getEmployees: Queries.getEmployees,
-        getWorkplaces: Queries.getWorkplaces
+        getWorkplaces: Queries.getWorkplaces,
+        getWorkplacesRelay: Queries.getWorkplacesRelay
     })
 });
 

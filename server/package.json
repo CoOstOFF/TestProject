@@ -17,6 +17,7 @@
     "express": "~4.13.4",
     "express-graphql": "^0.5.4",
     "graphql": "^0.7.1",
+    "graphql-relay": "^0.4.3",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "node-firebird": "^0.7.5",

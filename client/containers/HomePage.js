@@ -1,9 +1,8 @@
 import React from 'react';
-import {Jumbotron, Button, Grid, Row, Col, Panel} from 'react-bootstrap';
+import {Jumbotron, Grid, Row, Col, Panel, Button} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap'
 
 export default class HomePage extends React.Component {
-
     render() {
         return (
             <div>
@@ -13,20 +12,18 @@ export default class HomePage extends React.Component {
                     <p>This is home page of my application. Please, check all features of this product.</p>
                     <LinkContainer to="redux">
                         <Button
-                            id="submit_button"
                             bsStyle="primary"
                             type="button"
                             style={{
                                 borderColor: "#222222",
                                 backgroundColor: "#222222",
-                                fontColor: "#888888"
+                                fontColor: "#888888",
                             }}>
                             Try Query Editor
                         </Button>
                     </LinkContainer>
                     <LinkContainer to="relay">
                         <Button
-                            id="submit_button"
                             bsStyle="primary"
                             type="button"
                             style={{

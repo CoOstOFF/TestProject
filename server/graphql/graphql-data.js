@@ -1,25 +1,14 @@
-const workplaces = [
-    {
-        _id: generateUID(),
-        name: "Burger King",
-        address: "F street"
-    },
-    {
-        _id: generateUID(),
-        name: "KFC",
-        address: "T street"
-    },
-    {
-        _id: generateUID(),
-        name: "McDonald's",
-        address: "D street"
-    },
-    {
-        _id: generateUID(),
-        name: "Sbarro",
-        address: "V street"
-    }
-];
+const workplaces = [];
+
+for (let i = 1; i <= 1000; i++) {
+    workplaces.push(
+        {
+            _id: generateUID(),
+            name: "workplace " + i,
+            address: "address " + i
+        }
+    );
+}
 
 const employees = [
     {

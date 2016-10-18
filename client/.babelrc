@@ -1,7 +1,8 @@
 {
   "passPerPreset": true,
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "transform-decorators-legacy"
   ],
   "presets": [
     {

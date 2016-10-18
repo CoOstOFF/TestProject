@@ -2,3 +2,16 @@ body {
     font-size: 14px;
     font-family: 'open-sans';
 }
+
+.item {
+    padding: 0;
+    margin: 0;
+}
+
+.item:hover {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.hoveredItem {
+    background-color: rgba(0, 0, 0, .1);
+}

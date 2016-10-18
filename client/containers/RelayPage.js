@@ -2,7 +2,7 @@ import React from 'react';
 import Alert from '../components/Alert';
 import ProgressBar from '../components/ProgressBar';
 import RelayTable from '../components/RelayTable'
-import {PageHeader} from 'react-bootstrap';
+import {PageHeader, Panel} from 'react-bootstrap';
 
 export default class RelayPage extends React.Component {
     render() {
