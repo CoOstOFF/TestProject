@@ -3,7 +3,7 @@ const workplaces = [];
 for (let i = 1; i <= 1000; i++) {
     workplaces.push(
         {
-            _id: generateUID(),
+            id: generateUID(),
             name: "workplace " + i,
             address: "address " + i
         }
@@ -12,38 +12,38 @@ for (let i = 1; i <= 1000; i++) {
 
 const employees = [
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Bill",
         listNumber: 12,
         workplace: workplaces[randomInteger(0, 3)]
     },
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Kill",
         surname: "Dill",
         workplace: workplaces[randomInteger(0, 3)]
     },
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Till",
         surname: "Dill",
         listNumber: 17,
         workplace: workplaces[randomInteger(0, 3)]
     },
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Mill",
         listNumber: 14,
         workplace: workplaces[randomInteger(0, 3)]
     },
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Rill",
         surname: "Dill",
         workplace: workplaces[randomInteger(0, 3)]
     },
     {
-        _id: generateUID(),
+        id: generateUID(),
         name: "Fill",
         surname: "Dill",
         workplace: workplaces[randomInteger(0, 3)]

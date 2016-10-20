@@ -38,25 +38,25 @@ class MyEditTextForm extends React.Component {
         const getTableData = this.props.appActions;
         switch (eventKey) {
             case Constants.GET_EMPLOYEES:
-                getTableData('{getEmployees{_id name surname listNumber}}', Constants.GRAPHQL_QUERY);
+                getTableData('{getEmployees{id name surname listNumber}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_EMPLOYEE:
-                getTableData(parse('mutation{addEmployee(_id: "%s"){_id name surname listNumber}}',
+                getTableData(parse('mutation{addEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_EMPLOYEE:
-                getTableData(parse('mutation{deleteEmployee(_id: "%s"){_id name surname listNumber}}',
+                getTableData(parse('mutation{deleteEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.GET_WORKPLACES:
-                getTableData('{getWorkplaces{_id name address}}', Constants.GRAPHQL_QUERY);
+                getTableData('{getWorkplaces{id name address}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_WORKPLACE:
-                getTableData(parse('mutation{addWorkplace(_id: "%s"){_id name address}}',
+                getTableData(parse('mutation{addWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_WORKPLACE:
-                getTableData(parse('mutation{deleteWorkplace(_id: "%s"){_id name address}}',
+                getTableData(parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
         }

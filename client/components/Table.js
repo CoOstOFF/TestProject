@@ -27,39 +27,33 @@ class MyTable extends React.Component {
         if (this.state.visible) {
             return (
                 <div style={{margin: 10}}>
-                    <WindowScroller>
-                        {({height, isScrolling, scrollTop}) => (
-                            <AutoSizer disableHeight>
-                                {({width}) => (
-                                    <Table
-                                        autoHeight
-                                        headerHeight={Constants.HEADER_HEIGHT}
-                                        width={width}
-                                        rowStyle={{
-                                            borderBottom: "1px solid #e0e0e0"
-                                        }}
-                                        height={height}
-                                        rowCount={data.length}
-                                        scrollTop={scrollTop}
-                                        rowHeight={Constants.ROW_HEIGHT}
-                                        rowGetter={({index}) => data[index]}>
-                                        {
-                                            columns.map((value, i, arr) => {
-                                                return (
-                                                    <Column
-                                                        key={i}
-                                                        label={value}
-                                                        dataKey={value}
-                                                        width={width / columns.length}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    </Table>
-                                )}
-                            </AutoSizer>
+                    <AutoSizer disableHeight>
+                        {({width}) => (
+                            <Table
+                                headerHeight={Constants.HEADER_HEIGHT}
+                                width={width}
+                                rowStyle={{
+                                    borderBottom: "1px solid #e0e0e0"
+                                }}
+                                height={data.length > 20 ? 500 : Constants.ROW_HEIGHT * data.length + Constants.HEADER_HEIGHT}
+                                rowCount={data.length}
+                                rowHeight={Constants.ROW_HEIGHT}
+                                rowGetter={({index}) => data[index]}>
+                                {
+                                    columns.map((value, i, arr) => {
+                                        return (
+                                            <Column
+                                                key={i}
+                                                label={value}
+                                                dataKey={value}
+                                                width={width / columns.length}
+                                            />
+                                        )
+                                    })
+                                }
+                            </Table>
                         )}
-                    </WindowScroller>
+                    </AutoSizer>
                 </div>
             )
         }

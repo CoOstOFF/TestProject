@@ -1,11 +1,16 @@
 import React from 'react';
 import Relay from 'react-relay';
 import * as Constants from '../constants'
+import {Button} from 'react-bootstrap'
 import {Column, Table, AutoSizer, WindowScroller} from 'react-virtualized';
 
 class RelayTable extends React.Component {
 
-    _handleCountChange = (e) => {
+    onReload = () => {
+        this.props.relay.forceFetch();
+    };
+
+    handleCountChange = (e) => {
         this.props.relay.setVariables({
             first: e.target.value
                 ? parseInt(e.target.value, 10)
@@ -14,7 +19,9 @@ class RelayTable extends React.Component {
     };
 
     render() {
-        let data = this.props.getWorkplacesRelay.workplaces;
+        let data = this.props.getWorkplacesRelay.workplaces.edges.map(edge => {
+            return edge.node
+        });
         let row = data.reduce(function (prev, curr) {
             return Object.keys(prev).length > Object.keys(curr).length ? prev : curr;
         });
@@ -23,10 +30,22 @@ class RelayTable extends React.Component {
 
         return (
             <div style={{margin: 10}}>
+                <Button
+                    id="reload_button"
+                    bsStyle="primary"
+                    bsSize="small"
+                    type="button"
+                    style={{
+                        borderColor: "#222222",
+                        backgroundColor: "#222222"
+                    }}
+                    onClick={this.onReload}>
+                    Force Fetch
+                </Button>
                 <input
-                    onChange={this._handleCountChange}
+                    onChange={this.handleCountChange}
                     min="1"
-                    style={{width: 44}}
+                    style={{marginLeft: 20, width: 44}}
                     type="number"
                     value={first}
                 />
@@ -46,14 +65,16 @@ class RelayTable extends React.Component {
                                     rowGetter={({index}) => data[index]}>
                                     {
                                         columns.map((value, columnIndex, arr) => {
-                                            return (
-                                                <Column
-                                                    key={columnIndex}
-                                                    label={value}
-                                                    dataKey={value}
-                                                    width={width / columns.length}
-                                                />
-                                            )
+                                            if (value != '__dataID__') {
+                                                return (
+                                                    <Column
+                                                        key={columnIndex}
+                                                        label={value}
+                                                        dataKey={value}
+                                                        width={width / columns.length}
+                                                    />
+                                                )
+                                            }
                                         })
                                     }
                                 </Table>
@@ -73,7 +94,14 @@ var RelayTableContainer = Relay.createContainer(RelayTable, {
     fragments: {
         getWorkplacesRelay: () => Relay.QL`
         fragment on Lists{
-        workplaces(first: $first){name, address}
+          workplaces(first: $first){
+            edges{
+              node{
+                name,
+                address
+              },
+            },
+          },
         }`
     },
 });
