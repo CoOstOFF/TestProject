@@ -1,5 +1,12 @@
 import React from 'react';
-import {Button, ControlLabel, FormGroup, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
+import {
+    Button,
+    ControlLabel,
+    FormGroup,
+    FormControl,
+    DropdownButton,
+    MenuItem
+}from 'react-bootstrap';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as Constants from '../constants';
@@ -65,15 +72,12 @@ class MyEditTextForm extends React.Component {
     render() {
         return (
             <div>
-                <form style={{
-                    marginLeft: 10,
-                    marginRight: 10,
-                    marginBottom: 10
-                }}>
+                <form>
                     <FormGroup>
                         <FormControl
                             componentClass="textarea"
                             rows="4"
+                            resize="none"
                             placeholder="Input your query here..."
                             value={this.state.inputValue}
                             onChange={this.onChangeInputHandler}/>
@@ -88,7 +92,6 @@ class MyEditTextForm extends React.Component {
                         bsStyle="primary"
                         type="button"
                         style={{
-                            marginBottom: '10px',
                             borderColor: "#222222",
                             backgroundColor: "#222222",
                             fontColor: "#888888"
@@ -102,8 +105,7 @@ class MyEditTextForm extends React.Component {
                         bsStyle="danger"
                         type="reset"
                         style={{
-                            marginLeft: '10px',
-                            marginBottom: '10px'
+                            marginLeft: '10px'
                         }}
                         onClick={this.onClickClearFormHandler}>
                         Clear form
@@ -112,8 +114,7 @@ class MyEditTextForm extends React.Component {
                         dropup
                         title="Quick Query"
                         style={{
-                            marginLeft: '10px',
-                            marginBottom: '10px'
+                            marginLeft: '10px'
                         }}
                         onSelect={this.onSelectQuickQuery}
                         disabled={this.state.queryType != Constants.GRAPHQL_QUERY}>

@@ -26,7 +26,7 @@ class MyTable extends React.Component {
 
         if (this.state.visible) {
             return (
-                <div style={{margin: 10}}>
+                <div style={{marginBottom: 10}}>
                     <AutoSizer disableHeight>
                         {({width}) => (
                             <Table
