@@ -1,9 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import * as Constants from '../constants'
-import {Column, Table, AutoSizer, WindowScroller} from 'react-virtualized';
+import {Column, Table, AutoSizer} from 'react-virtualized';
 
-class MyTable extends React.Component {
+export  default class MyTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +12,6 @@ class MyTable extends React.Component {
     componentWillReceiveProps = (nextProps) => {
         this.setState({visible: nextProps.data.length});
     };
-
 
     render() {
         let data = this.props.data;
@@ -60,10 +58,3 @@ class MyTable extends React.Component {
         return null;
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        data: state.data
-    }
-}
-export default connect(mapStateToProps)(MyTable)

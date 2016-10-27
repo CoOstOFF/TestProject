@@ -7,7 +7,7 @@ import {Router, hashHistory} from 'react-router';
 import {routes} from './routes'
 require('react-virtualized/styles.css');
 require('react-resizable/css/styles.css');
-require('bootstrap/dist/css/bootstrap.css');
+require('bootstrap/dist/css/bootstrap.min.css');
 
 const store = configureStore();
 

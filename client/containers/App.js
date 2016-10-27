@@ -35,14 +35,9 @@ export default class App extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <div style={{marginTop: 50, marginBottom: 50}}>
+                <div style={{marginTop: 50}}>
                     {this.props.children}
                 </div>
-                <Navbar inverse fixedBottom style={{textAlign: "center"}}>
-                    <Navbar.Text>
-                        Copyright &#169; 2016 Andilevko Andrew
-                    </Navbar.Text>
-                </Navbar>
             </div>
         )
     }

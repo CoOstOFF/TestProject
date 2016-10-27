@@ -3,6 +3,7 @@ import Alert from '../components/Alert';
 import ProgressBar from '../components/ProgressBar';
 import Table from '../components/Table';
 import EditTextForm from '../components/EditTextForm';
+import {Glyphicon} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 
 export default class Window extends React.Component {
@@ -23,15 +24,22 @@ export default class Window extends React.Component {
                         style={{backgroundColor: "#EFEFEF", borderColor: "#EEEEEE", fontWeight: "bold", float: "left"}}
                         onClick={this.props.onCloseClick}
                         bsSize="xsmall">
-                        x
+                        <Glyphicon glyph="remove"/>
+                    </Button>
+                    <Button
+                        type="button"
+                        style={{backgroundColor: "#EFEFEF", borderColor: "#EEEEEE", fontWeight: "bold", float: "left"}}
+                        onClick={this.props.onTurnClick}
+                        bsSize="xsmall">
+                        <Glyphicon glyph="option-horizontal"/>
                     </Button>
                     <span>Form №{this.props.num.toString()}</span>
                 </div>
                 <div style={{margin: 10}}>
-                    <Alert/>
+                    <Alert error={this.props.error}/>
                     <ProgressBar/>
-                    <Table/>
-                    <EditTextForm/>
+                    <Table data={this.props.data}/>
+                    <EditTextForm num={this.props.num}/>
                 </div>
             </div>
         );

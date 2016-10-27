@@ -1,6 +1,28 @@
 import * as Constants from '../constants';
 
-export default function getData(query, queryType) {
+export function addForm(form) {
+    return {
+        type: Constants.ADD_FORM,
+        payload: form,
+        fetching: false
+    }
+}
+
+export function deleteForm(form) {
+    return {
+        type: Constants.DELETE_FORM,
+        payload: form
+    }
+}
+
+export function turnForm(form) {
+    return {
+        type: Constants.TURN_FORM,
+        payload: form
+    }
+}
+
+export function getData(key, query, queryType) {
     return (dispatch) => {
         dispatch({
             type: Constants.GET_DATA,
@@ -25,8 +47,9 @@ export default function getData(query, queryType) {
                 dispatch({
                     type: Constants.GET_DATA_SUCCESS,
                     payload: {
-                        data: data,
-                        error: null,
+                        form: {
+                            key: key, data: data, error: null, queryType: queryType, query: query
+                        },
                         fetching: false
                     }
                 })
@@ -37,8 +60,9 @@ export default function getData(query, queryType) {
                 dispatch({
                     type: Constants.GET_DATA_FAILURE,
                     payload: {
-                        data: [],
-                        error: error,
+                        form: {
+                            key: key, data: [], error: error, queryType: queryType, query: query
+                        },
                         fetching: false
                     }
                 })

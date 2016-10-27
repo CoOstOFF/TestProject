@@ -10,9 +10,9 @@ import {
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as Constants from '../constants';
-import getData from '../actions/app-actions'
+import {getData} from '../actions/app-actions'
 
-class MyEditTextForm extends React.Component {
+export default class MyEditTextForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -33,7 +33,7 @@ class MyEditTextForm extends React.Component {
     onClickSubmitHandler = (e) => {
         e.preventDefault();
         const getTableData = this.props.appActions;
-        getTableData(this.state.inputValue, this.state.queryType);
+        getTableData(this.props.num, this.state.inputValue, this.state.queryType);
     };
 
     onClickClearFormHandler = (e) => {
@@ -45,25 +45,25 @@ class MyEditTextForm extends React.Component {
         const getTableData = this.props.appActions;
         switch (eventKey) {
             case Constants.GET_EMPLOYEES:
-                getTableData('{getEmployees{id name surname listNumber}}', Constants.GRAPHQL_QUERY);
+                getTableData(this.props.num, '{getEmployees{id name surname listNumber}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_EMPLOYEE:
-                getTableData(parse('mutation{addEmployee(id: "%s"){id name surname listNumber}}',
+                getTableData(this.props.num, parse('mutation{addEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_EMPLOYEE:
-                getTableData(parse('mutation{deleteEmployee(id: "%s"){id name surname listNumber}}',
+                getTableData(this.props.num, parse('mutation{deleteEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.GET_WORKPLACES:
-                getTableData('{getWorkplaces{id name address}}', Constants.GRAPHQL_QUERY);
+                getTableData(this.props.num, '{getWorkplaces{id name address}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_WORKPLACE:
-                getTableData(parse('mutation{addWorkplace(id: "%s"){id name address}}',
+                getTableData(this.props.num, parse('mutation{addWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_WORKPLACE:
-                getTableData(parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
+                getTableData(this.props.num, parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
         }
@@ -77,7 +77,6 @@ class MyEditTextForm extends React.Component {
                         <FormControl
                             componentClass="textarea"
                             rows="4"
-                            resize="none"
                             placeholder="Input your query here..."
                             value={this.state.inputValue}
                             onChange={this.onChangeInputHandler}/>
@@ -111,6 +110,7 @@ class MyEditTextForm extends React.Component {
                         Clear form
                     </Button>
                     <DropdownButton
+                        id="dropdown"
                         dropup
                         title="Quick Query"
                         style={{
@@ -131,12 +131,6 @@ class MyEditTextForm extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        appActions: bindActionCreators(getData, dispatch)
-    }
-}
-
 // %s string parameter
 function parse(str) {
     var args = [].slice.call(arguments, 1),
@@ -145,6 +139,12 @@ function parse(str) {
     return str.replace(/%s/g, function () {
         return args[i++];
     });
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        appActions: bindActionCreators(getData, dispatch)
+    }
 }
 
 export default connect(null, mapDispatchToProps)(MyEditTextForm)

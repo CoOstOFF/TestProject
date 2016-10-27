@@ -14,6 +14,9 @@ export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
 export const GET_DATA = 'GET_DATA';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+export const ADD_FORM = 'ADD_FORM';
+export const DELETE_FORM = 'DELETE_FORM';
+export const TURN_FORM = 'TURN_FORM';
 
 //Table
 export const HEADER_HEIGHT = 50;
