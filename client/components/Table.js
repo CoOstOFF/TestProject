@@ -2,7 +2,7 @@ import React from 'react';
 import * as Constants from '../constants'
 import {Column, Table, AutoSizer} from 'react-virtualized';
 
-export  default class MyTable extends React.Component {
+export default class MyTable extends React.Component {
 
     constructor(props) {
         super(props);

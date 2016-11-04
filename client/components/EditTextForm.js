@@ -32,8 +32,8 @@ export default class MyEditTextForm extends React.Component {
 
     onClickSubmitHandler = (e) => {
         e.preventDefault();
-        const getTableData = this.props.appActions;
-        getTableData(this.props.num, this.state.inputValue, this.state.queryType);
+        const {getData} = this.props.appActions;
+        getData(this.props.num, this.state.inputValue, this.state.queryType);
     };
 
     onClickClearFormHandler = (e) => {
@@ -42,28 +42,28 @@ export default class MyEditTextForm extends React.Component {
     };
 
     onSelectQuickQuery = (eventKey, event) => {
-        const getTableData = this.props.appActions;
+        const {getData} = this.props.appActions;
         switch (eventKey) {
             case Constants.GET_EMPLOYEES:
-                getTableData(this.props.num, '{getEmployees{id name surname listNumber}}', Constants.GRAPHQL_QUERY);
+                getData(this.props.num, '{getEmployees{id name surname listNumber}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_EMPLOYEE:
-                getTableData(this.props.num, parse('mutation{addEmployee(id: "%s"){id name surname listNumber}}',
+                getData(this.props.num, parse('mutation{addEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_EMPLOYEE:
-                getTableData(this.props.num, parse('mutation{deleteEmployee(id: "%s"){id name surname listNumber}}',
+                getData(this.props.num, parse('mutation{deleteEmployee(id: "%s"){id name surname listNumber}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.GET_WORKPLACES:
-                getTableData(this.props.num, '{getWorkplaces{id name address}}', Constants.GRAPHQL_QUERY);
+                getData(this.props.num, '{getWorkplaces{id name address}}', Constants.GRAPHQL_QUERY);
                 break;
             case Constants.ADD_WORKPLACE:
-                getTableData(this.props.num, parse('mutation{addWorkplace(id: "%s"){id name address}}',
+                getData(this.props.num, parse('mutation{addWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
             case Constants.DELETE_WORKPLACE:
-                getTableData(this.props.num, parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
+                getData(this.props.num, parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
         }
@@ -143,7 +143,7 @@ function parse(str) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(getData, dispatch)
+        appActions: bindActionCreators({getData}, dispatch)
     }
 }
 

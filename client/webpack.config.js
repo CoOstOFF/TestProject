@@ -12,7 +12,6 @@ module.exports = {
         preLoaders: [
             {
                 test: /\.js$/,
-                loaders: ['eslint'],
                 include: [
                     path.resolve(__dirname, "src"),
                 ],

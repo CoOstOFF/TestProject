@@ -5,13 +5,14 @@
  */
 import {app} from "../app"
 import serverGraphQL from '../app-graphql';
-var debug = require('debug')('ServerApp:server');
-var http = require('http');
 import fs from 'fs';
 import path from 'path';
 import Schema from '../graphql/schema';
 import {graphql} from 'graphql';
 import {introspectionQuery} from 'graphql/utilities';
+import socket from '../socket';
+var debug = require('debug')('ServerApp:server');
+var http = require('http');
 
 /**
  * Get port from environment and store in Express.
@@ -25,11 +26,13 @@ serverGraphQL.listen(4000);
  */
 
 var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+io.on('connection', socket);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);

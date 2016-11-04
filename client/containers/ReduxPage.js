@@ -3,7 +3,7 @@ import Window from '../components/Window'
 import {Button, Glyphicon} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-import {addForm, deleteForm, turnForm} from '../actions/app-actions'
+import {addForm, deleteForm, turnForm, updateFormsLayout} from '../actions/app-actions'
 import * as Constants from '../constants';
 import ReactGridLayout, {WidthProvider} from 'react-grid-layout';
 const DecoratedReactGridLayout = WidthProvider(ReactGridLayout);
@@ -20,6 +20,15 @@ class ReduxPage extends React.Component {
         let form = {
             key: key,
             data: [],
+            layoutParams: {
+                i: key.toString(),
+                minH: 5,
+                minW: 4,
+                x: 0,
+                y: 0,
+                w: 6,
+                h: 5
+            },
             isTurned: false,
             error: null,
             queryType: Constants.GRAPHQL_QUERY,
@@ -53,20 +62,14 @@ class ReduxPage extends React.Component {
         var formsArray = [];
         var formsTurnedArray = [];
         let forms = this.props.forms;
+        const {updateFormsLayout} = this.props.appActions;
+
         for (let key in forms) {
             if (forms.hasOwnProperty(key)) {
                 formsArray.push(
                     <div
                         className="card"
-                        data-grid={{
-                            i: key.toString(),
-                            minH: 5,
-                            minW: 4,
-                            x: 0,
-                            y: 0,
-                            w: 6,
-                            h: 5
-                        }}
+                        data-grid={forms[key].layoutParams}
                         key={key.toString()}
                         style={{
                             backgroundColor: "#FFFFFF",
@@ -120,6 +123,12 @@ class ReduxPage extends React.Component {
                 <DecoratedReactGridLayout
                     cols={12}
                     rowHeight={42}
+                    onResizeStop={(layout)=> {
+                        updateFormsLayout(layout);
+                    }}
+                    onDragStop={(layout)=> {
+                        updateFormsLayout(layout);
+                    }}
                     className="layout"
                 >
                     <div className="card"
@@ -155,7 +164,7 @@ class ReduxPage extends React.Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators({addForm, deleteForm, turnForm}, dispatch)
+        appActions: bindActionCreators({addForm, deleteForm, turnForm, updateFormsLayout}, dispatch)
     }
 }
 

@@ -30,6 +30,21 @@ export default function appState(state = initialState, action) {
                 ...state,
                 forms: forms_tf
             };
+        case Constants.UPDATE_FORMS_LAYOUT:
+            let forms_ufl = {...forms};
+            action.payload.forEach((item, i, arr) => {
+                if (item.i != "toolbar") {
+                    let form = {...forms_ufl[item.i]};
+                    delete form.layoutParams;
+                    form.layoutParams = item;
+                    delete forms_ufl[item.i];
+                    forms_ufl[item.i] = form;
+                }
+            });
+            return {
+                ...state,
+                forms: forms_ufl
+            };
         case Constants.GET_DATA:
             return {
                 ...state,
@@ -37,20 +52,24 @@ export default function appState(state = initialState, action) {
             };
         case Constants.GET_DATA_SUCCESS:
             let forms_gds = {...forms};
-            delete  forms_gds[action.payload.form.key.toString()];
-            forms_gds[action.payload.form.key.toString()] = action.payload.form;
+            let form_gds = {...forms_gds[action.payload.key.toString()]};
+            delete form_gds.data;
+            delete form_gds.query;
+            delete form_gds.queryType;
+            form_gds.data = action.payload.data;
+            form_gds.query = action.payload.query;
+            form_gds.queryType = action.payload.queryType;
+            delete forms_gds[action.payload.key.toString()];
+            forms_gds[action.payload.key.toString()] = form_gds;
             return {
                 ...state,
                 forms: forms_gds,
                 fetching: action.payload.fetching
             };
         case Constants.GET_DATA_FAILURE:
-            let forms_gdf = {...forms};
-            delete forms_gdf[action.payload.form.key.toString()];
-            forms_gdf[action.payload.form.key.toString()] = action.payload.form;
             return {
                 ...state,
-                forms: forms_gdf,
+                forms: {...forms, ...{...forms[action.payload.key.toString()], ...action.payload}},
                 fetching: action.payload.fetching
             };
         default:

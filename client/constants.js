@@ -17,6 +17,7 @@ export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
 export const ADD_FORM = 'ADD_FORM';
 export const DELETE_FORM = 'DELETE_FORM';
 export const TURN_FORM = 'TURN_FORM';
+export const UPDATE_FORMS_LAYOUT = 'UPDATE_FORMS_LAYOUT';
 
 //Table
 export const HEADER_HEIGHT = 50;

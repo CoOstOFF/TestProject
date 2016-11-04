@@ -22,6 +22,13 @@ export function turnForm(form) {
     }
 }
 
+export function updateFormsLayout(layout) {
+    return {
+        type: Constants.UPDATE_FORMS_LAYOUT,
+        payload: layout
+    }
+}
+
 export function getData(key, query, queryType) {
     return (dispatch) => {
         dispatch({
@@ -47,9 +54,10 @@ export function getData(key, query, queryType) {
                 dispatch({
                     type: Constants.GET_DATA_SUCCESS,
                     payload: {
-                        form: {
-                            key: key, data: data, error: null, queryType: queryType, query: query
-                        },
+                        key: key,
+                        data: data,
+                        query: query,
+                        queryType: queryType,
                         fetching: false
                     }
                 })
@@ -60,9 +68,10 @@ export function getData(key, query, queryType) {
                 dispatch({
                     type: Constants.GET_DATA_FAILURE,
                     payload: {
-                        form: {
-                            key: key, data: [], error: error, queryType: queryType, query: query
-                        },
+                        key: key,
+                        error: error,
+                        query: query,
+                        queryType: queryType,
                         fetching: false
                     }
                 })
