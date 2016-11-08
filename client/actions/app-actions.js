@@ -29,6 +29,13 @@ export function updateFormsLayout(layout) {
     }
 }
 
+export function removeError(key) {
+    return {
+        type: Constants.REMOVE_ERROR,
+        payload: key
+    }
+}
+
 export function getData(key, query, queryType) {
     return (dispatch) => {
         dispatch({

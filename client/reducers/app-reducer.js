@@ -45,6 +45,17 @@ export default function appState(state = initialState, action) {
                 ...state,
                 forms: forms_ufl
             };
+        case Constants.REMOVE_ERROR:
+            let forms_re = {...forms};
+            let form_re = {...forms_re[action.payload.toString()]};
+            delete form_re.error;
+            form_re.error = null;
+            delete forms_re[action.payload.toString()];
+            forms_re[action.payload.toString()] = form_re;
+            return {
+                ...state,
+                forms: forms_re
+            };
         case Constants.GET_DATA:
             return {
                 ...state,
@@ -67,9 +78,19 @@ export default function appState(state = initialState, action) {
                 fetching: action.payload.fetching
             };
         case Constants.GET_DATA_FAILURE:
+            let forms_gdf = {...forms};
+            let form_gdf = {...forms_gdf[action.payload.key.toString()]};
+            delete form_gdf.error;
+            delete form_gdf.query;
+            delete form_gdf.queryType;
+            form_gdf.error = action.payload.error;
+            form_gdf.query = action.payload.query;
+            form_gdf.queryType = action.payload.queryType;
+            delete forms_gdf[action.payload.key.toString()];
+            forms_gdf[action.payload.key.toString()] = form_gdf;
             return {
                 ...state,
-                forms: {...forms, ...{...forms[action.payload.key.toString()], ...action.payload}},
+                forms: forms_gdf,
                 fetching: action.payload.fetching
             };
         default:

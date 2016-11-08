@@ -1,5 +1,8 @@
 import React from 'react';
 import {Alert} from 'react-bootstrap';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {removeError} from '../actions/app-actions'
 
 export default class MyAlert extends React.Component {
 
@@ -9,7 +12,8 @@ export default class MyAlert extends React.Component {
     }
 
     handleAlertDismiss = () => {
-        this.setState({visible: false});
+        const {removeError} = this.props.appActions;
+        removeError(this.props.num);
     };
 
     componentWillReceiveProps = (nextProps) => {
@@ -29,3 +33,11 @@ export default class MyAlert extends React.Component {
 
     }
 }
+
+function mapDispatchToProps(dispatch) {
+    return {
+        appActions: bindActionCreators({removeError}, dispatch)
+    }
+}
+
+export default connect(null, mapDispatchToProps)(MyAlert)

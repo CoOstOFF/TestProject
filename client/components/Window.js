@@ -36,7 +36,7 @@ export default class Window extends React.Component {
                     <span>Form №{this.props.num.toString()}</span>
                 </div>
                 <div style={{margin: 10}}>
-                    <Alert error={this.props.error}/>
+                    <Alert error={this.props.error} num={this.props.num}/>
                     <ProgressBar/>
                     <Table data={this.props.data}/>
                     <EditTextForm num={this.props.num}/>

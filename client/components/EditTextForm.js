@@ -66,6 +66,13 @@ export default class MyEditTextForm extends React.Component {
                 getData(this.props.num, parse('mutation{deleteWorkplace(id: "%s"){id name address}}',
                     prompt("Input ID") || ""), Constants.GRAPHQL_QUERY);
                 break;
+            case Constants.SHOW_ALL_TABLES:
+                getData(this.props.num, 'select rdb$relation_name from rdb$relations where rdb$view_blr is null and (rdb$system_flag is null or rdb$system_flag = 0);', Constants.SQL_QUERY);
+                break;
+            case Constants.DELETE_TABLE:
+                getData(this.props.num, parse('drop table %s',
+                    prompt("Input table name") || ""), Constants.SQL_QUERY);
+                break;
         }
     };
 
@@ -116,14 +123,24 @@ export default class MyEditTextForm extends React.Component {
                         style={{
                             marginLeft: '10px'
                         }}
-                        onSelect={this.onSelectQuickQuery}
-                        disabled={this.state.queryType != Constants.GRAPHQL_QUERY}>
-                        <MenuItem eventKey={Constants.GET_EMPLOYEES}>Get employees</MenuItem>
-                        <MenuItem eventKey={Constants.ADD_EMPLOYEE}>Add employee</MenuItem>
-                        <MenuItem eventKey={Constants.DELETE_EMPLOYEE}>Delete employee</MenuItem>
-                        <MenuItem eventKey={Constants.GET_WORKPLACES}>Get workplaces</MenuItem>
-                        <MenuItem eventKey={Constants.ADD_WORKPLACE}>Add workplace</MenuItem>
-                        <MenuItem eventKey={Constants.DELETE_WORKPLACE}>Delete workplace</MenuItem>
+                        onSelect={this.onSelectQuickQuery}>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.GET_EMPLOYEES}>Get employees</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.ADD_EMPLOYEE}>Add employee</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.DELETE_EMPLOYEE}>Delete employee</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.GET_WORKPLACES}>Get workplaces</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.ADD_WORKPLACE}>Add workplace</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.GRAPHQL_QUERY}
+                                  eventKey={Constants.DELETE_WORKPLACE}>Delete workplace</MenuItem>
+                        <MenuItem divider/>
+                        <MenuItem disabled={this.state.queryType != Constants.SQL_QUERY}
+                                  eventKey={Constants.SHOW_ALL_TABLES}>Show all tables</MenuItem>
+                        <MenuItem disabled={this.state.queryType != Constants.SQL_QUERY}
+                                  eventKey={Constants.DELETE_TABLE}>Delete table</MenuItem>
                     </DropdownButton>
                 </form>
             </div>
