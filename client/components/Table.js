@@ -24,18 +24,18 @@ export default class MyTable extends React.Component {
 
         if (this.state.visible) {
             return (
-                <div style={{marginBottom: 10}}>
-                    <AutoSizer disableHeight>
-                        {({width}) => (
+                <AutoSizer >
+                    {({height, width}) => {
+                        return (
                             <Table
-                                headerHeight={Constants.HEADER_HEIGHT}
                                 width={width}
+                                height={height - Constants.TOOLBAR_HEIGHT}
+                                headerHeight={Constants.HEADER_HEIGHT}
+                                rowCount={data.length}
+                                rowHeight={Constants.ROW_HEIGHT}
                                 rowStyle={{
                                     borderBottom: "1px solid #e0e0e0"
                                 }}
-                                height={data.length > 20 ? 500 : Constants.ROW_HEIGHT * data.length + Constants.HEADER_HEIGHT}
-                                rowCount={data.length}
-                                rowHeight={Constants.ROW_HEIGHT}
                                 rowGetter={({index}) => data[index]}>
                                 {
                                     columns.map((value, i, arr) => {
@@ -50,9 +50,9 @@ export default class MyTable extends React.Component {
                                     })
                                 }
                             </Table>
-                        )}
-                    </AutoSizer>
-                </div>
+                        )
+                    }}
+                </AutoSizer>
             )
         }
         return null;

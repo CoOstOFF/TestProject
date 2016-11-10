@@ -20,7 +20,7 @@ export default class MyList extends React.Component {
                 x: 4,
                 y: 1,
                 w: 9,
-                h: 15
+                h: 8
             },
             isTurned: false,
             error: null,
@@ -43,7 +43,7 @@ export default class MyList extends React.Component {
     rowRenderer = ({key, index, style}) => {
         let data;
         let {forms} = this.props;
-        data = forms['tableList'] ? this.props.forms['tableList'].data : [];
+        data = forms[Constants.TABLE_LIST_FORM] ? this.props.forms[Constants.TABLE_LIST_FORM].data : [];
         return (
             <div className="listItem" key={key} style={style}
                  onClick={() => this.itemClickHandler(data[index]["RDB$RELATION_NAME"])}>
@@ -55,10 +55,9 @@ export default class MyList extends React.Component {
     };
 
     render() {
-
         let data;
         let {forms} = this.props;
-        data = forms['tableList'] ? this.props.forms['tableList'].data : [];
+        data = forms[Constants.TABLE_LIST_FORM] ? this.props.forms[Constants.TABLE_LIST_FORM].data : [];
 
         return (
             <AutoSizer>
@@ -68,7 +67,7 @@ export default class MyList extends React.Component {
                             width={width}
                             height={height}
                             rowCount={data.length}
-                            rowHeight={45}
+                            rowHeight={Constants.ROW_HEIGHT}
                             rowRenderer={this.rowRenderer}
                         />
                     )

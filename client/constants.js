@@ -2,16 +2,6 @@
 export const SQL_QUERY = 'SQL';
 export const GRAPHQL_QUERY = 'GRAPHQL';
 
-//Quick Query DropDown
-export const GET_EMPLOYEES = 'GET_EMPLOYEES';
-export const GET_WORKPLACES = 'GET_WORKPLACES';
-export const ADD_WORKPLACE = 'ADD_WORKPLACE';
-export const DELETE_WORKPLACE = 'DELETE_WORKPLACE';
-export const ADD_EMPLOYEE = 'ADD_EMPLOYEE';
-export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
-export const SHOW_ALL_TABLES = 'SHOW_ALL_TABLES';
-export const DELETE_TABLE = 'DELETE_TABLE';
-
 //Redux
 export const GET_DATA = 'GET_DATA';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
@@ -25,6 +15,12 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 
 //Table
 export const HEADER_HEIGHT = 50;
-export const ROW_HEIGHT = 40;
+export const ROW_HEIGHT = 45;
+export const TOOLBAR_HEIGHT = 25;
+
+//Grid
+export const TABLE_LIST_FORM = 'tableListForm';
+export const TASK_BAR_FORM = 'taskBarForm';
+export const INPUT_FORM = 'inputForm';
 
 
