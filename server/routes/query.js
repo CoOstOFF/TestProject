@@ -13,8 +13,8 @@ options.password = 'masterkey';
 
 router.post('/', (req, res, next) => {
     Firebird.attach(options, function (err, db) {
-        if (err) {
-            next(err);
+            if (err) {
+                next(err);
         } else {
             db.query(req.body.query, function (err, result) {
                 db.detach();

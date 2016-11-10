@@ -8,38 +8,42 @@ import {Button} from 'react-bootstrap';
 
 export default class Window extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {showInput: true}
+    }
+
+    toggleShowInput = () => {
+        this.setState({showInput: !this.state.showInput})
+    };
+
     render() {
         return (
             <div>
                 <div style={{
-                    borderBottom: "solid 3px #E2E1E0",
-                    backgroundColor: "#EFEFEF",
+                    backgroundColor: "#757575",
                     padding: 2,
-                    textAlign: "center",
-                    borderTopLeftRadius: 3,
-                    borderTopRightRadius: 3
+                    textAlign: "left",
+                    borderTopLeftRadius: 2,
+                    borderTopRightRadius: 2
                 }}>
-                    <Button
-                        type="button"
-                        style={{backgroundColor: "#EFEFEF", borderColor: "#EEEEEE", fontWeight: "bold", float: "left"}}
-                        onClick={this.props.onCloseClick}
-                        bsSize="xsmall">
-                        <Glyphicon glyph="remove"/>
-                    </Button>
-                    <Button
-                        type="button"
-                        style={{backgroundColor: "#EFEFEF", borderColor: "#EEEEEE", fontWeight: "bold", float: "left"}}
-                        onClick={this.props.onTurnClick}
-                        bsSize="xsmall">
-                        <Glyphicon glyph="option-horizontal"/>
-                    </Button>
-                    <span>Form №{this.props.num.toString()}</span>
+                    <Glyphicon className="iconBarWindow" onClick={this.props.onCloseClick} glyph="remove"/>
+                    <Glyphicon className="iconBarWindow" onClick={this.props.onTurnClick} glyph="option-horizontal"/>
+                    <span style={{
+                        color: "#FFFFFF",
+                        fontSize: 15,
+                        marginLeft: 10
+                    }}>Form {this.props.num.toString()}</span>
                 </div>
                 <div style={{margin: 10}}>
                     <Alert error={this.props.error} num={this.props.num}/>
                     <ProgressBar/>
                     <Table data={this.props.data}/>
-                    <EditTextForm num={this.props.num}/>
+                    <Glyphicon className="iconShowInputWindow"
+                               glyph={this.state.showInput ? "chevron-up" : "chevron-down"}
+                               onClick={this.toggleShowInput}/>
+                    { this.state.showInput ? <EditTextForm num={this.props.num}/> : null }
                 </div>
             </div>
         );

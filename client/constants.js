@@ -16,6 +16,7 @@ export const DELETE_TABLE = 'DELETE_TABLE';
 export const GET_DATA = 'GET_DATA';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+export const DELETE_TABLE_SERVER = 'DELETE_TABLE_SERVER';
 export const ADD_FORM = 'ADD_FORM';
 export const DELETE_FORM = 'DELETE_FORM';
 export const TURN_FORM = 'TURN_FORM';

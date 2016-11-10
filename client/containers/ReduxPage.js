@@ -1,9 +1,10 @@
 import React from 'react';
 import Window from '../components/Window'
+import List from '../components/List'
 import {Button, Glyphicon} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-import {addForm, deleteForm, turnForm, updateFormsLayout} from '../actions/app-actions'
+import {addForm, getData, deleteForm, turnForm, updateFormsLayout} from '../actions/app-actions'
 import * as Constants from '../constants';
 import ReactGridLayout, {WidthProvider} from 'react-grid-layout';
 const DecoratedReactGridLayout = WidthProvider(ReactGridLayout);
@@ -15,6 +16,28 @@ class ReduxPage extends React.Component {
         this.state = {key: 0};
     }
 
+    componentDidMount = () => {
+        let {addForm, getData} = this.props.appActions;
+        addForm({
+            key: 'tableList',
+            data: [],
+            layoutParams: {
+                i: 'tableList',
+                minH: 6,
+                minW: 3,
+                x: 0,
+                y: 1,
+                w: 3,
+                h: 15
+            },
+            isTurned: false,
+            error: null,
+            queryType: Constants.SQL_QUERY,
+            query: ""
+        });
+        getData('tableList', "select rdb$relation_name from rdb$relations where rdb$view_blr is null and (rdb$system_flag is null or rdb$system_flag = 0);", Constants.SQL_QUERY);
+    };
+
     onClickAddFormHandler = () => {
         let key = this.state.key;
         let form = {
@@ -22,12 +45,12 @@ class ReduxPage extends React.Component {
             data: [],
             layoutParams: {
                 i: key.toString(),
-                minH: 5,
+                minH: 6,
                 minW: 4,
-                x: 0,
+                x: 3,
                 y: 0,
                 w: 6,
-                h: 5
+                h: 6
             },
             isTurned: false,
             error: null,
@@ -66,52 +89,54 @@ class ReduxPage extends React.Component {
 
         for (let key in forms) {
             if (forms.hasOwnProperty(key)) {
-                formsArray.push(
-                    <div
-                        className="card"
-                        data-grid={forms[key].layoutParams}
-                        key={key.toString()}
-                        style={{
-                            backgroundColor: "#FFFFFF",
-                            borderRadius: 3,
-                            display: forms[key.toString()].isTurned ? "none" : "inline"
-                        }}>
-                        <Window data={forms[key.toString()].data} error={forms[key.toString()].error} num={key}
-                                onCloseClick={() => {
-                                    this.onClickCloseHandler(key)
-                                }}
-                                onTurnClick={() => {
-                                    this.onClickTurnHandler(key)
-                                }}/>
-                    </div>
-                )
+                if (key != 'tableList') {
+                    formsArray.push(
+                        <div
+                            className="card"
+                            data-grid={forms[key].layoutParams}
+                            key={key.toString()}
+                            style={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 2,
+                                display: forms[key.toString()].isTurned ? "none" : "inline"
+                            }}>
+                            <Window data={forms[key.toString()].data} error={forms[key.toString()].error} num={key}
+                                    onCloseClick={() => {
+                                        this.onClickCloseHandler(key)
+                                    }}
+                                    onTurnClick={() => {
+                                        this.onClickTurnHandler(key)
+                                    }}/>
+                        </div>
+                    )
+                }
             }
         }
         for (let key in forms) {
             if (forms.hasOwnProperty(key)) {
                 if (forms[key.toString()].isTurned == true) {
-                    formsTurnedArray.push(
-                        <div style={{float: "left"}}>
-                            <Button
-                                id={"return_form_button" + key.toString()}
-                                type="button"
-                                onClick={() => {
-                                    this.onClickReturnHandler(key)
-                                }}
-                                style={{borderColor: "#FFFFFF", borderRadius: 0, borderLeft: "solid 1px #DDDDDD"}}>
-                                Form №{key.toString()}
-                            </Button>
-                            <Button
-                                id={"close_form_button" + key.toString()}
-                                type="button"
-                                onClick={() => {
-                                    this.onClickCloseHandler(key)
-                                }}
-                                style={{borderColor: "#FFFFFF"}}>
-                                <Glyphicon glyph="remove"/>
-                            </Button>
-                        </div>
-                    )
+                    if (key != "tableList") {
+                        formsTurnedArray.push(
+                            <div style={{float: "left"}}>
+                                <span
+                                    className="iconBarGrid"
+                                    id={"return_form_button" + key.toString()}
+                                    onClick={() => {
+                                        this.onClickReturnHandler(key)
+                                    }}>
+                                    Form {key.toString()}
+                                </span>
+                                <Glyphicon
+                                    className="iconBarGrid"
+                                    id={"close_form_button" + key.toString()}
+                                    glyph="remove"
+                                    onClick={() => {
+                                        this.onClickCloseHandler(key)
+                                    }}
+                                />
+                            </div>
+                        )
+                    }
                 }
             }
         }
@@ -135,25 +160,34 @@ class ReduxPage extends React.Component {
                          key={'toolbar'}
                          data-grid={{i: 'toolbar', x: 0, y: 0, w: 12, h: 1, static: true}}
                          style={{
-                             padding: 1,
-                             backgroundColor: "#FFFFFF",
+                             backgroundColor: "#222222",
                              display: "flex",
                              alignItems: "center",
-                             borderRadius: 3
+                             borderRadius: 2
                          }}>
-                        <Button
-                            id="add_form_button"
-                            type="button"
-                            style={{
-                                marginLeft: 5, marginRight: 5, borderColor: "#DDDDDD",
-                                backgroundColor: "#DDDDDD"
-                            }}
-                            onClick={this.onClickAddFormHandler}>
-                            Add form
-                        </Button>
+                        <Glyphicon className="iconBarGrid" glyph="plus" onClick={this.onClickAddFormHandler}/>
                         <div>
                             {formsTurnedArray.map((item) => item)}
                         </div>
+                    </div>
+                    <div className="card"
+                         style={{
+                             backgroundColor: "#FFFFFF",
+                             borderRadius: 2,
+                             margin: 0,
+                             padding: 0
+                         }}
+                         key={'tableList'}
+                         data-grid={{
+                             i: 'tableList',
+                             minH: 5,
+                             minW: 3,
+                             x: 0,
+                             y: 1,
+                             w: 3,
+                             h: 15
+                         }}>
+                        <List/>
                     </div>
                     {formsArray.map((item) => item)}
                 </DecoratedReactGridLayout>
@@ -164,7 +198,7 @@ class ReduxPage extends React.Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators({addForm, deleteForm, turnForm, updateFormsLayout}, dispatch)
+        appActions: bindActionCreators({addForm, getData, deleteForm, turnForm, updateFormsLayout}, dispatch)
     }
 }
 

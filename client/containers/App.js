@@ -70,7 +70,7 @@ export default class App extends React.Component {
                             <Navbar.Text>
                                 You are {this.state.user}
                             </Navbar.Text>
-                            <NavDropdown eventKey={1}
+                            <NavDropdown id="navDropDown" eventKey={1}
                                          title={"Show Users " + "(" + this.state.users.length + ")"}>
                                 {menuItems}
                             </NavDropdown>
