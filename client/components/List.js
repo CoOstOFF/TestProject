@@ -18,7 +18,7 @@ export default class MyList extends React.Component {
                 minH: 6,
                 minW: 4,
                 x: 4,
-                y: 1,
+                y: 0,
                 w: 9,
                 h: 8
             },

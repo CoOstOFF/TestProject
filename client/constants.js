@@ -16,7 +16,7 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 //Table
 export const HEADER_HEIGHT = 50;
 export const ROW_HEIGHT = 45;
-export const TOOLBAR_HEIGHT = 25;
+export const TOOLBAR_HEIGHT = 30;
 
 //Grid
 export const TABLE_LIST_FORM = 'tableListForm';

@@ -40,7 +40,7 @@ class MyEditTextForm extends React.Component {
                 minH: 6,
                 minW: 4,
                 x: 4,
-                y: 1,
+                y: 0,
                 w: 9,
                 h: 8
             },
@@ -66,9 +66,10 @@ class MyEditTextForm extends React.Component {
                 <form>
                     <FormGroup>
                         <FormControl
+                            style={{resize: "none"}}
                             componentClass="textarea"
-                            rows="5"
                             placeholder="Input your query here..."
+                            rows={5}
                             value={this.state.inputValue}
                             onChange={this.onChangeInputHandler}/>
                         <ControlLabel>Select query type:</ControlLabel>

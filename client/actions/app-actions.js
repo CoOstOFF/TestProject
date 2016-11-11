@@ -102,8 +102,7 @@ export function deleteTable(tableName) {
             .then(checkStatus)
             .then(parseJSON)
             .then(function (data) {
-                console.log("action delete table");
-                console.log(data);
+                console.log("action delete table", data);
             })
     }
 }

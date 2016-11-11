@@ -33,7 +33,7 @@ export default function appState(state = initialState, action) {
         case Constants.UPDATE_FORMS_LAYOUT:
             let forms_ufl = {...forms};
             action.payload.forEach((item, i, arr) => {
-                if (item.i != (Constants.TASK_BAR_FORM) && item.i != (Constants.INPUT_FORM)) {
+                if (item.i != (Constants.TASK_BAR_FORM)) {
                     let form = {...forms_ufl[item.i]};
                     delete form.layoutParams;
                     form.layoutParams = item;
@@ -96,7 +96,6 @@ export default function appState(state = initialState, action) {
         case Constants.DELETE_TABLE_SERVER:
             let forms_dts = {...forms};
             delete forms_dts[action.payload];
-            console.log(forms_dts);
             return {
                 ...state,
                 forms: forms_dts

@@ -35,31 +35,43 @@ body {
 }
 
 .iconToolbarForm {
-    color: #bdbdbd;
+    color: black;
     float: right;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
-.iconToolbarForm:hover {
-    color: #ffffff;
+.iconToolbarFormClose:hover {
+    color: white;
+    background-color: crimson;
 }
 
-.iconToolbarForm:active {
-    color: #ffffff;
+.iconToolbarFormClose:active {
+    color: white;
+    background-color: rgba(220, 20, 60, 0.76);
+}
+
+.iconToolbarFormMinimize:hover {
+    background-color: rgba(117, 117, 117, 0.50);
+}
+
+.iconToolbarFormMinimize:active {
+    background-color: rgba(117, 117, 117, 0.70);
 }
 
 .iconTaskBarGrid {
-    color: #222222;
-    margin-right: 10px;
-    margin-left: 10px;
+    color: black;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .iconTaskBarGrid:hover {
-    color: #757575;
+    background-color: rgba(0, 0, 0, 0.12);
+
 }
 
 .iconTaskBarGrid:active {
-    color: #757575;
+    background-color: rgba(0, 0, 0, 0.24);
 }
 

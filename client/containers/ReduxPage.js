@@ -23,11 +23,11 @@ class ReduxPage extends React.Component {
                 minH: 6,
                 minW: 3,
                 x: 0,
-                y: 6,
+                y: Infinity,
                 w: 3,
                 h: 10
             },
-            isTurned: false,
+            isMinimized: false,
             error: null,
             queryType: Constants.SQL_QUERY,
             query: ""
@@ -43,14 +43,14 @@ class ReduxPage extends React.Component {
     onClickMinimizeHandler = (key) => {
         const {turnForm} = this.props.appActions;
         let form = {...this.props.forms[key.toString()]};
-        form.isTurned = true;
+        form.isMinimized = true;
         turnForm(form);
     };
 
     onClickReturnHandler = (key) => {
         const {turnForm} = this.props.appActions;
         let form = {...this.props.forms[key.toString()]};
-        form.isTurned = false;
+        form.isMinimized = false;
         turnForm(form);
     };
 
@@ -62,39 +62,43 @@ class ReduxPage extends React.Component {
 
         for (let key in forms) {
             if (forms.hasOwnProperty(key)) {
-                if (key != ( Constants.TABLE_LIST_FORM)) {
+                if (key != (Constants.TABLE_LIST_FORM) && key != (Constants.INPUT_FORM)) {
                     formsArray.push(
                         <div
                             className="card"
                             data-grid={forms[key].layoutParams}
                             key={key.toString()}
                             style={{
-                                display: forms[key.toString()].isTurned ? "none" : "inline"
+                                display: forms[key.toString()].isMinimized ? "none" : "inline"
                             }}>
                             <div style={{
-                                backgroundColor: "#757575",
+                                backgroundColor: "#EFEFEF",
                                 textAlign: "left",
+                                borderBottom: "2px #DDDDDD solid",
                                 height: Constants.TOOLBAR_HEIGHT,
                                 borderTopLeftRadius: 2,
                                 borderTopRightRadius: 2
                             }}>
-                                <Glyphicon className="iconToolbarForm"
+                                <Glyphicon className="iconToolbarForm iconToolbarFormClose"
+                                           style={{lineHeight: "30px"}}
                                            onClick={() => {
                                                this.onClickCloseHandler(key)
                                            }} glyph="remove"/>
-                                <Glyphicon className="iconToolbarForm" onClick={() => {
-                                    this.onClickMinimizeHandler(key)
-                                }}
+                                <Glyphicon className="iconToolbarForm iconToolbarFormMinimize"
+                                           style={{lineHeight: "30px"}}
+                                           onClick={() => {
+                                               this.onClickMinimizeHandler(key)
+                                           }}
                                            glyph="option-horizontal"/>
                                 <span style={{
-                                    color: "#FFFFFF",
+                                    color: "#757575",
+                                    lineHeight: "30px",
                                     fontSize: 15,
                                     marginLeft: 10
                                 }}>Form {key.toString()}</span>
                             </div>
-
-                            {forms[key.toString()].error ? <Alert error={forms[key.toString()].error}/> :
-                                <Table data={forms[key.toString()].data}/> }
+                            <Alert error={forms[key.toString()].error} style={{margin: 10}} num={key}/>
+                            <Table data={forms[key.toString()].data}/>
                         </div>
                     );
                 }
@@ -103,20 +107,24 @@ class ReduxPage extends React.Component {
 
         for (let key in forms) {
             if (forms.hasOwnProperty(key)) {
-                if (forms[key.toString()].isTurned == true) {
-                    if (key != (Constants.TABLE_LIST_FORM)) {
+                if (forms[key.toString()].isMinimized == true) {
+                    if (key != (Constants.TABLE_LIST_FORM) && key != (Constants.INPUT_FORM)) {
                         formsMinimizedArray.push(
-                            <div style={{float: "left", borderRight: "1px #757575 solid"}}>
+                            <div style={{
+                                float: "left",
+                                borderRight: "1px #909090 solid"
+                            }}>
                                 <span
-                                    className="iconTaskBarGrid"
-                                    id={"return_form_button" + key.toString()}
-                                    onClick={() => {
-                                        this.onClickReturnHandler(key)
-                                    }}>
+                                    className="iconTaskBarGrid" onClick={() => {
+                                    this.onClickReturnHandler(key)
+                                }}
+                                    style={{lineHeight: "42px"}}
+                                    id={"return_form_button" + key.toString()}>
                                     Form {key.toString()}
                                 </span>
                                 <Glyphicon
                                     className="iconTaskBarGrid"
+                                    style={{lineHeight: "42px"}}
                                     id={"close_form_button" + key.toString()}
                                     glyph="remove"
                                     onClick={() => {
@@ -132,7 +140,7 @@ class ReduxPage extends React.Component {
 
         return (
             <div style={{
-                backgroundColor: "#BDBDBD",
+                backgroundColor: "#E2E1E0",
                 marginTop: 50
             }}>
 
@@ -141,6 +149,8 @@ class ReduxPage extends React.Component {
                 <DecoratedReactGridLayout
                     className="layout"
                     cols={12}
+                    containerPadding={[5, 5]}
+                    margin={[15, 15]}
                     rowHeight={42}
                     onResizeStop={(layout)=> {
                         updateFormsLayout(layout);
@@ -154,11 +164,7 @@ class ReduxPage extends React.Component {
                     <div
                         className="card"
                         key={Constants.TASK_BAR_FORM}
-                        data-grid={{i: Constants.TASK_BAR_FORM, x: 0, y: 0, w: 12, h: 1, static: true}}
-                        style={{
-                            display: "flex",
-                            alignItems: "center"
-                        }}>
+                        data-grid={{i: Constants.TASK_BAR_FORM, x: 0, y: 0, w: 12, h: 1, static: true}}>
                         <div>
 
                             {/* Forms-Minimized */}
@@ -190,11 +196,12 @@ class ReduxPage extends React.Component {
                          key={Constants.INPUT_FORM}
                          data-grid={{
                              i: Constants.INPUT_FORM,
+                             minH: 5,
+                             minW: 3,
                              x: 0,
-                             y: 1,
+                             y: 0,
                              w: 3,
-                             h: 5,
-                             static: true
+                             h: 5
                          }}>
                         <div style={{margin: 10}}>
                             <EditTextForm />
