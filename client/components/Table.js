@@ -11,15 +11,21 @@ export default class MyTable extends React.Component {
 
     componentWillReceiveProps = (nextProps) => {
         this.setState({visible: nextProps.data.length});
+        if (nextProps.data.length) {
+            this.props.socket.emit('user:commit', {
+                name: this.props.user
+            });
+        }
     };
 
     render() {
         let data = this.props.data;
+        let columns;
         if (this.state.visible) {
             let row = data.reduce(function (prev, curr) {
                 return Object.keys(prev).length > Object.keys(curr).length ? prev : curr;
             });
-            var columns = Object.keys(row);
+            columns = Object.keys(row);
         }
 
         if (this.state.visible) {

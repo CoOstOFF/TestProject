@@ -1,9 +1,9 @@
 import express from 'express';
 import Firebird from 'node-firebird';
 import path from 'path';
-var router = express.Router();
+let router = express.Router();
 
-var options = {};
+let options = {};
 
 options.host = '127.0.0.1';
 options.port = 3050;
@@ -12,20 +12,27 @@ options.user = 'SYSDBA';
 options.password = 'masterkey';
 
 router.post('/', (req, res, next) => {
-    Firebird.attach(options, function (err, db) {
-            if (err) {
-                next(err);
-        } else {
-            db.query(req.body.query, function (err, result) {
-                db.detach();
+    Firebird.attach(options, (err, db) => {
+        db.transaction(Firebird.ISOLATION_READ_COMMITED, function (err, transaction) {
+            transaction.query(req.body.query, (err, result) => {
                 if (err) {
-                    err.message = "Wrong SQL query.";
+                    transaction.rollback();
                     next(err);
-                } else {
-                    res.send(result);
                 }
-            });
-        }
+
+                transaction.commit(function (err) {
+                    if (err)
+                        transaction.rollback();
+                    else
+                        db.detach();
+                });
+            })
+        });
+
+        db.on('result', (result) => {
+            res.send(result);
+        });
+
     });
 });
 export default router;

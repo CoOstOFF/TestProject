@@ -15,7 +15,11 @@ const socket = (socket) => {
         name: name
     });
 
-    socket.on('disconnect', function () {
+    socket.on('user:commit', (data) => {
+        socket.broadcast.emit('server:commit', {name: data.name})
+    });
+
+    socket.on('disconnect', () => {
         socket.broadcast.emit('user:left', {
             name: name
         });

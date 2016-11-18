@@ -55,9 +55,9 @@ class ReduxPage extends React.Component {
     };
 
     render() {
-        var formsArray = [];
-        var formsMinimizedArray = [];
-        let forms = this.props.forms;
+        const formsArray = [];
+        const formsMinimizedArray = [];
+        const forms = this.props.forms;
         const {updateFormsLayout} = this.props.appActions;
 
         for (let key in forms) {
@@ -98,7 +98,7 @@ class ReduxPage extends React.Component {
                                 }}>Form {key.toString()}</span>
                             </div>
                             <Alert error={forms[key.toString()].error} style={{margin: 10}} num={key}/>
-                            <Table data={forms[key.toString()].data}/>
+                            <Table data={forms[key.toString()].data} socket={this.props.socket} user={this.props.user}/>
                         </div>
                     );
                 }
@@ -152,10 +152,10 @@ class ReduxPage extends React.Component {
                     containerPadding={[5, 5]}
                     margin={[15, 15]}
                     rowHeight={42}
-                    onResizeStop={(layout)=> {
+                    onResizeStop={(layout) => {
                         updateFormsLayout(layout);
                     }}
-                    onDragStop={(layout)=> {
+                    onDragStop={(layout) => {
                         updateFormsLayout(layout);
                     }}>
 
@@ -204,7 +204,7 @@ class ReduxPage extends React.Component {
                              h: 5
                          }}>
                         <div style={{margin: 10}}>
-                            <EditTextForm />
+                            <EditTextForm/>
                         </div>
                     </div>
 

@@ -2,8 +2,11 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {ToastContainer, ToastMessage} from "react-toastr";
 
-var socket = io.connect();
+let socket = io.connect();
+
+const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
 export default class App extends React.Component {
 
@@ -13,6 +16,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount = () => {
+        this.setState({socket: socket});
         socket.on('init', (data) => {
             let {users, name} = data;
             let usersList = [];
@@ -34,6 +38,16 @@ export default class App extends React.Component {
             users.splice(index, 1);
             this.setState({users: users});
         });
+        socket.on('server:commit', (data) => {
+            this.addCommitAlert(data.name);
+        });
+    };
+
+    addCommitAlert = (name) => {
+        this.refs.container.success(`${name} commited transaction`, `Alert`, {
+            timeOut: 60000,
+            closeButton: true
+        });
     };
 
     handleSelect = (key) => {
@@ -50,6 +64,11 @@ export default class App extends React.Component {
 
         return (
             <div>
+                <ToastContainer
+                    toastMessageFactory={ToastMessageFactory}
+                    ref="container"
+                    className="toast-top-right"
+                />
                 <Navbar inverse fixedTop>
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -78,7 +97,12 @@ export default class App extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <div style={{marginTop: 50}}>
-                    {this.props.children}
+
+                    {React.cloneElement(this.props.children, {
+                        socket: this.state.socket,
+                        user: this.state.user
+                    })}
+
                 </div>
             </div>
         )
