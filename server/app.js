@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/index';
 import query from './routes/query';
 
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +24,7 @@ app.use('/query', query);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    var err = new Error('Oooooops :(');
+    let err = new Error('Oooooops :(');
     err.status = 404;
     next(err);
 });

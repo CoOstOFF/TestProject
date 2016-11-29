@@ -1,6 +1,5 @@
 import React from 'react';
 import {List, AutoSizer} from 'react-virtualized';
-import {Glyphicon} from 'react-bootstrap'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import * as Constants from '../constants';
@@ -31,15 +30,6 @@ export default class MyList extends React.Component {
         getData(tableName, "select * from " + tableName, Constants.SQL_QUERY);
     };
 
-    itemDeleteTableClickHandler = (tableName) => {
-        let {deleteTable} = this.props.appActions;
-        if (confirm("Do you want to delete table " + tableName)) {
-            deleteTable(tableName);
-            alert("Table " + tableName + " deleted")
-        } else alert("Cancelled");
-        this.forceUpdate();
-    };
-
     rowRenderer = ({key, index, style}) => {
         let data;
         let {forms} = this.props;
@@ -47,8 +37,6 @@ export default class MyList extends React.Component {
         return (
             <div className="listItem" key={key} style={style}
                  onClick={() => this.itemClickHandler(data[index]["RDB$RELATION_NAME"])}>
-                <Glyphicon className="iconDeleteTableList" glyph="trash"
-                           onClick={() => this.itemDeleteTableClickHandler(data[index]["RDB$RELATION_NAME"])}/>
                 <span style={{marginLeft: 15}}>{data[index]["RDB$RELATION_NAME"]}</span>
             </div>
         )

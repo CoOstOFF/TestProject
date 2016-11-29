@@ -86,27 +86,6 @@ export function getData(key, query, queryType) {
     }
 }
 
-export function deleteTable(tableName) {
-    return (dispatch) => {
-        dispatch({
-            type: Constants.DELETE_TABLE_SERVER,
-            payload: tableName
-        });
-        fetch('/', {
-            method: 'post',
-            headers: {
-                "Content-type": 'application/json'
-            },
-            body: JSON.stringify({query: "drop table " + tableName})
-        })
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(function (data) {
-                console.log("action delete table", data);
-            })
-    }
-}
-
 function fetchUrl(queryType) {
     switch (queryType) {
         case Constants.SQL_QUERY:

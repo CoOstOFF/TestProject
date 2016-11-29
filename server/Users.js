@@ -13,8 +13,8 @@ export default class Users {
         }
     };
 
-    getUserName() {
-        var name,
+    addUser() {
+        let name,
             nextUserId = 1;
 
         do {

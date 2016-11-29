@@ -93,13 +93,6 @@ export default function appState(state = initialState, action) {
                 forms: forms_gdf,
                 fetching: action.payload.fetching
             };
-        case Constants.DELETE_TABLE_SERVER:
-            let forms_dts = {...forms};
-            delete forms_dts[action.payload];
-            return {
-                ...state,
-                forms: forms_dts
-            };
         default:
             return state;
     }

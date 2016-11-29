@@ -4,7 +4,7 @@ let users = new Users();
 
 const socket = (socket) => {
 
-    let name = users.getUserName();
+    let name = users.addUser();
 
     socket.emit('init', {
         name: name,
@@ -17,6 +17,10 @@ const socket = (socket) => {
 
     socket.on('user:commit', (data) => {
         socket.broadcast.emit('server:commit', {name: data.name})
+    });
+
+    socket.on('user:kick', (data) => {
+        socket.broadcast.emit('server:kick', {name: data.name})
     });
 
     socket.on('disconnect', () => {

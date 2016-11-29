@@ -6,16 +6,14 @@ export default class MyTable extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {visible: false}
+        this.state = {visible: false};
+        this.props.socket.emit('user:commit', {
+            name: this.props.user
+        });
     }
 
     componentWillReceiveProps = (nextProps) => {
         this.setState({visible: nextProps.data.length});
-        if (nextProps.data.length) {
-            this.props.socket.emit('user:commit', {
-                name: this.props.user
-            });
-        }
     };
 
     render() {
@@ -30,7 +28,7 @@ export default class MyTable extends React.Component {
 
         if (this.state.visible) {
             return (
-                <AutoSizer >
+                <AutoSizer>
                     {({height, width}) => {
                         return (
                             <Table
@@ -38,6 +36,13 @@ export default class MyTable extends React.Component {
                                 height={height - Constants.TOOLBAR_HEIGHT}
                                 headerHeight={Constants.HEADER_HEIGHT}
                                 rowCount={data.length}
+                                noRowsRenderer={() => {
+                                    return (
+                                        <div>
+                                            <span>NO DATA</span>
+                                        </div>
+                                    );
+                                }}
                                 rowHeight={Constants.ROW_HEIGHT}
                                 rowStyle={{
                                     borderBottom: "1px solid #e0e0e0"

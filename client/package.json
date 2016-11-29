@@ -30,7 +30,6 @@
     "react-router-bootstrap": "^0.23.1",
     "react-router-relay": "^0.13.5",
     "react-tap-event-plugin": "^1.0.0",
-    "react-toastr": "^2.8.2",
     "react-virtualized": "^8.1.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",

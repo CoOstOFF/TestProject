@@ -1,18 +1,16 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
+import showNotification from '../notification'
+import {Navbar, NavItem, Nav, NavDropdown, MenuItem, Glyphicon} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
-import {ToastContainer, ToastMessage} from "react-toastr";
 
 let socket = io.connect();
-
-const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
 export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {key: 0, users: []};
+        this.state = {key: 0, users: [], kick: false};
     }
 
     componentDidMount = () => {
@@ -30,6 +28,7 @@ export default class App extends React.Component {
             let {name} = data;
             users.push(name);
             this.setState({users: users});
+            showNotification(this.capitalizeFirstLetter(name) + " joined project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-48.png");
         });
         socket.on('user:left', (data) => {
             let {users} = this.state;
@@ -37,39 +36,54 @@ export default class App extends React.Component {
             let index = users.indexOf(name);
             users.splice(index, 1);
             this.setState({users: users});
+            showNotification(this.capitalizeFirstLetter(name) + " left project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/remove_user-48.png");
         });
         socket.on('server:commit', (data) => {
-            this.addCommitAlert(data.name);
+            let {name} = data;
+            showNotification(this.capitalizeFirstLetter(name) + " commited transaction", "You can congratulate him or do nothing", window.location, "https://cdn4.iconfinder.com/data/icons/miu/24/circle-arrow_up-upload-outline-stroke-48.png");
         });
-    };
-
-    addCommitAlert = (name) => {
-        this.refs.container.success(`${name} commited transaction`, `Alert`, {
-            timeOut: 60000,
-            closeButton: true
+        socket.on('server:kick', (data) => {
+            let {name} = data;
+            if (name == this.state.user) {
+                showNotification("You were kicked!", "You can't do anything", null, "https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_hand-48.png");
+                this.setState({kick: true});
+                socket.disconnect();
+            }
         });
+        if (prompt("Password for admin rights:", "") == "admin") {
+            showNotification("You have admin rights", "You can do anything", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/star-48.png");
+            this.setState({admin: true});
+        }
     };
 
     handleSelect = (key) => {
         this.setState({key});
     };
 
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     render() {
         let {users} = this.state;
         let menuItems = users.map((name) => {
             return (
-                <MenuItem>{name}</MenuItem>
+                <MenuItem>{name}<Glyphicon style={(name == this.state.user || !this.state.admin) ? {display: "none"} : {
+                    marginLeft: 10,
+                    marginRight: 10,
+                    display: "inline"
+                }} className="iconDeleteTableList" glyph="trash" onClick={() => {
+                    socket.emit("user:kick", {
+                        name: name
+                    });
+                }}/></MenuItem>
             )
         });
 
         return (
-            <div>
-                <ToastContainer
-                    toastMessageFactory={ToastMessageFactory}
-                    ref="container"
-                    className="toast-top-right"
-                />
-                <Navbar inverse fixedTop>
+            <div style={this.state.kick ? {pointerEvents: "none"} : {}}>
+                <Navbar inverse fixedTop
+                        style={this.state.kick ? {backgroundColor: "#B71C1C", borderBottomColor: "#A41C1C"} : {}}>
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">Query App</Link>
@@ -87,9 +101,14 @@ export default class App extends React.Component {
                         </Nav>
                         <Nav pullRight>
                             <Navbar.Text>
-                                You are {this.state.user}
+                                {this.state.kick ? "You were kicked!" : "You are " + this.state.user}
                             </Navbar.Text>
-                            <NavDropdown id="navDropDown" eventKey={1}
+                            <Navbar.Text>
+                                <Glyphicon glyph="star"
+                                           style={this.state.admin ? {display: "inline"} : {display: "none"}}/>
+                            </Navbar.Text>
+                            <NavDropdown style={(this.state.kick ? {display: "none"} : {display: "inline"})}
+                                         id="navDropDown" eventKey={1}
                                          title={"Show Users " + "(" + this.state.users.length + ")"}>
                                 {menuItems}
                             </NavDropdown>
@@ -97,12 +116,10 @@ export default class App extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <div style={{marginTop: 50}}>
-
                     {React.cloneElement(this.props.children, {
                         socket: this.state.socket,
                         user: this.state.user
                     })}
-
                 </div>
             </div>
         )
