@@ -10,7 +10,7 @@ import path from 'path';
 import Schema from '../graphql/schema';
 import {graphql} from 'graphql';
 import {introspectionQuery} from 'graphql/utilities';
-import socket from '../socket';
+import socket from '../socket/socket';
 let debug = require('debug')('ServerApp:server');
 let http = require('http');
 
@@ -26,9 +26,9 @@ serverGraphQL.listen(4000);
  */
 
 let server = http.createServer(app);
-let io = require('socket.io').listen(server);
+// let io = require('socket.io').listen(server);
 
-io.on('connection', socket);
+// io.on('connection', socket);
 
 /**
  * Listen on provided port, on all network interfaces.

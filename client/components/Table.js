@@ -7,9 +7,6 @@ export default class MyTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {visible: false};
-        this.props.socket.emit('user:commit', {
-            name: this.props.user
-        });
     }
 
     componentWillReceiveProps = (nextProps) => {

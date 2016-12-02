@@ -1,89 +1,90 @@
 import React from 'react';
 import {Link} from 'react-router';
-import showNotification from '../notification'
 import {Navbar, NavItem, Nav, NavDropdown, MenuItem, Glyphicon} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import Auth from '../Auth'
 
-let socket = io.connect();
+// let socket = io.connect();
 
 export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {key: 0, users: [], kick: false};
+        this.state = {key: 0};
     }
 
     componentDidMount = () => {
-        this.setState({socket: socket});
-        socket.on('init', (data) => {
-            let {users, name} = data;
-            let usersList = [];
-            for (let name in users) {
-                if (users.hasOwnProperty(name)) usersList.push(name);
-            }
-            this.setState({users: usersList, user: name});
-        });
-        socket.on('user:joined', (data) => {
-            let {users} = this.state;
-            let {name} = data;
-            users.push(name);
-            this.setState({users: users});
-            showNotification(this.capitalizeFirstLetter(name) + " joined project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-48.png");
-        });
-        socket.on('user:left', (data) => {
-            let {users} = this.state;
-            let {name} = data;
-            let index = users.indexOf(name);
-            users.splice(index, 1);
-            this.setState({users: users});
-            showNotification(this.capitalizeFirstLetter(name) + " left project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/remove_user-48.png");
-        });
-        socket.on('server:commit', (data) => {
-            let {name} = data;
-            showNotification(this.capitalizeFirstLetter(name) + " commited transaction", "You can congratulate him or do nothing", window.location, "https://cdn4.iconfinder.com/data/icons/miu/24/circle-arrow_up-upload-outline-stroke-48.png");
-        });
-        socket.on('server:kick', (data) => {
-            let {name} = data;
-            if (name == this.state.user) {
-                showNotification("You were kicked!", "You can't do anything", null, "https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_hand-48.png");
-                this.setState({kick: true});
-                socket.disconnect();
-            }
-        });
-        if (prompt("Password for admin rights:", "") == "admin") {
-            showNotification("You have admin rights", "You can do anything", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/star-48.png");
-            this.setState({admin: true});
-        }
+
+        Auth.removeSkipAuth();
+        //     this.setState({socket: socket});
+        //     socket.on('init', (data) => {
+        //         let {users, name} = data;
+        //         let usersList = [];
+        //         for (let name in users) {
+        //             if (users.hasOwnProperty(name)) usersList.push(name);
+        //         }
+        //         this.setState({users: usersList, user: name});
+        //     });
+        //     socket.on('user:joined', (data) => {
+        //         let {users} = this.state;
+        //         let {name} = data;
+        //         users.push(name);
+        //         this.setState({users: users});
+        //         showNotification(this.capitalizeFirstLetter(name) + " joined project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/add_user-48.png");
+        //     });
+        //     socket.on('user:left', (data) => {
+        //         let {users} = this.state;
+        //         let {name} = data;
+        //         let index = users.indexOf(name);
+        //         users.splice(index, 1);
+        //         this.setState({users: users});
+        //         showNotification(this.capitalizeFirstLetter(name) + " left project", "You can congratulate him or do nothing", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/remove_user-48.png");
+        //     });
+        //     socket.on('server:commit', (data) => {
+        //         let {name} = data;
+        //         showNotification(this.capitalizeFirstLetter(name) + " commited transaction", "You can congratulate him or do nothing", window.location, "https://cdn4.iconfinder.com/data/icons/miu/24/circle-arrow_up-upload-outline-stroke-48.png");
+        //     });
+        //     socket.on('server:kick', (data) => {
+        //         let {name} = data;
+        //         if (name == this.state.user) {
+        //             showNotification("You were kicked!", "You can't do anything", null, "https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_hand-48.png");
+        //             this.setState({kick: true});
+        //             socket.disconnect();
+        //         }
+        //     });
+        //     if (prompt("Password for admin rights:", "") == "admin") {
+        //         showNotification("You have admin rights", "You can do anything", null, "https://cdn4.iconfinder.com/data/icons/mayssam/512/star-48.png");
+        //         this.setState({admin: true});
+        //     }
     };
 
     handleSelect = (key) => {
         this.setState({key});
     };
 
-    capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
+    // capitalizeFirstLetter = (string) => {
+    //     return string.charAt(0).toUpperCase() + string.slice(1);
+    // };
 
     render() {
-        let {users} = this.state;
-        let menuItems = users.map((name) => {
-            return (
-                <MenuItem>{name}<Glyphicon style={(name == this.state.user || !this.state.admin) ? {display: "none"} : {
-                    marginLeft: 10,
-                    marginRight: 10,
-                    display: "inline"
-                }} className="iconDeleteTableList" glyph="trash" onClick={() => {
-                    socket.emit("user:kick", {
-                        name: name
-                    });
-                }}/></MenuItem>
-            )
-        });
+        // let {users} = this.state;
+        // let menuItems = users.map((name) => {
+        //     return (
+        //         <MenuItem>{name}<Glyphicon style={(name == this.state.user || !this.state.admin) ? {display: "none"} : {
+        //             marginLeft: 10,
+        //             marginRight: 10,
+        //             display: "inline"
+        //         }} className="iconDeleteTableList" glyph="trash" onClick={() => {
+        //             socket.emit("user:kick", {
+        //                 name: name
+        //             });
+        //         }}/></MenuItem>
+        //     )
+        // });
 
         return (
-            <div style={this.state.kick ? {pointerEvents: "none"} : {}}>
-                <Navbar inverse fixedTop
-                        style={this.state.kick ? {backgroundColor: "#B71C1C", borderBottomColor: "#A41C1C"} : {}}>
+            <div >
+                <Navbar inverse fixedTop>
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">Query App</Link>
@@ -99,27 +100,10 @@ export default class App extends React.Component {
                                 <NavItem eventKey={2}>User Table</NavItem>
                             </LinkContainer>
                         </Nav>
-                        <Nav pullRight>
-                            <Navbar.Text>
-                                {this.state.kick ? "You were kicked!" : "You are " + this.state.user}
-                            </Navbar.Text>
-                            <Navbar.Text>
-                                <Glyphicon glyph="star"
-                                           style={this.state.admin ? {display: "inline"} : {display: "none"}}/>
-                            </Navbar.Text>
-                            <NavDropdown style={(this.state.kick ? {display: "none"} : {display: "inline"})}
-                                         id="navDropDown" eventKey={1}
-                                         title={"Show Users " + "(" + this.state.users.length + ")"}>
-                                {menuItems}
-                            </NavDropdown>
-                        </Nav>
                     </Navbar.Collapse>
                 </Navbar>
                 <div style={{marginTop: 50}}>
-                    {React.cloneElement(this.props.children, {
-                        socket: this.state.socket,
-                        user: this.state.user
-                    })}
+                    {this.props.children}
                 </div>
             </div>
         )
